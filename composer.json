@@ -7,7 +7,6 @@
     "require": {
         "php": "^8.0.2",
         "ext-exif": "*",
-        "ext-http": "*",
         "ext-json": "*",
         "ext-pdo": "*",
         "anandsiddharth/laravel-paytm-wallet": "^2.0",
