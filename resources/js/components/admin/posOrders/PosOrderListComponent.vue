@@ -36,7 +36,7 @@
                                     { id: enums.orderStatusEnum.ACCEPT, name: $t('label.accept') },
                                     { id: enums.orderStatusEnum.PREPARING, name: $t('label.preparing') },
                                     { id: enums.orderStatusEnum.PREPARED, name: $t('label.prepared') },
-                                    { id: enums.orderStatusEnum.DELIVERED, name: $t('label.delivered') },
+                                    // { id: enums.orderStatusEnum.DELIVERED, name: $t('label.delivered') },
                                 ]" label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
                                 :clearOnClose="true" placeholder="--" search-placeholder="--" />
                         </div>
@@ -89,7 +89,7 @@
                             <th class="db-table-head-th">{{ $t('label.customer') }}</th>
                             <th class="db-table-head-th">{{ $t('label.amount') }}</th>
                             <th class="db-table-head-th">{{ $t('label.date') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.delivery_date') }}</th>
+                            <!-- <th class="db-table-head-th">{{ $t('label.delivery_date') }}</th> -->
                             <th class="db-table-head-th">{{ $t('label.status') }}</th>
                             <th class="db-table-head-th hidden-print" v-if="permissionChecker('pos-orders')">{{
                                 $t('label.action') }}</th>
@@ -110,9 +110,9 @@
                             </td>
                             <td class="db-table-body-td">{{ order.total_amount_price }}</td>
                             <td class="db-table-body-td">{{ order.order_datetime }}</td>
-                            <td class="db-table-body-td">
+                            <!-- <td class="db-table-body-td">
                                 {{ formatDeliveryDate(order.delivery_date) }}
-                            </td>
+                            </td> -->
                             <td class="db-table-body-td">
                                 <span :class="orderStatusClass(order.status)">
                                     {{ enums.orderStatusEnumArray[order.status] }}
