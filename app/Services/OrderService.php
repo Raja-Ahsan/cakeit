@@ -239,6 +239,7 @@ class OrderService
                             'item_variations'      => json_encode($item->item_variations),
                             'item_extras'          => json_encode($item->item_extras),
                             'instruction'          => $item->instruction,
+                            'delivery_date'        => $item->delivery_date ?? null,
                             'item_variation_total' => $item->item_variation_total,
                             'item_extra_total'     => $item->item_extra_total,
                             'total_price'          => $item->total_price,
@@ -326,35 +327,28 @@ class OrderService
                             'item_variations'      => json_encode($item->item_variations),
                             'item_extras'          => json_encode($item->item_extras),
                             'instruction'          => $item->instruction,
+                            'delivery_date'        => $item->delivery_date ?? null,
+                            'delivery_time'        => $item->delivery_time ?? null,
                             'item_variation_total' => $item->item_variation_total,
                             'item_extra_total'     => $item->item_extra_total,
                             'total_price'          => $item->total_price,
                         ]);
 
                         // Handle file upload if attachment exists
-                        \Log::info("Checking for attachments.$i");
-                        \Log::info("All files in request: " . json_encode($request->allFiles()));
-                        
                         if ($request->hasFile("attachments.$i")) {
-                            \Log::info("Processing attachment for item $i: " . $request->file("attachments.$i")->getClientOriginalName());
                             try {
                                 $orderItem->addMediaFromRequest("attachments.$i")
                                     ->toMediaCollection('attachment');
-                                \Log::info("Successfully saved attachment for item $i");
                             } catch (\Exception $e) {
-                                \Log::error("Error saving attachment for item $i: " . $e->getMessage());
+                                Log::error("Error saving attachment for item $i: " . $e->getMessage());
                             }
                         } elseif ($request->hasFile("attachments[$i]")) {
-                            \Log::info("Processing attachment for item $i with bracket notation: " . $request->file("attachments[$i]")->getClientOriginalName());
                             try {
                                 $orderItem->addMediaFromRequest("attachments[$i]")
                                     ->toMediaCollection('attachment');
-                                \Log::info("Successfully saved attachment for item $i with bracket notation");
                             } catch (\Exception $e) {
-                                \Log::error("Error saving attachment for item $i with bracket notation: " . $e->getMessage());
+                                Log::error("Error saving attachment for item $i with bracket notation: " . $e->getMessage());
                             }
-                        } else {
-                            \Log::info("No attachment found for item $i");
                         }
 
                         $totalTax = $totalTax + $taxPrice;
@@ -425,35 +419,28 @@ class OrderService
                             'item_variations'      => json_encode($item->item_variations),
                             'item_extras'          => json_encode($item->item_extras),
                             'instruction'          => $item->instruction,
+                            'delivery_date'        => $item->delivery_date ?? null,
+                            'delivery_time'        => $item->delivery_time ?? null,
                             'item_variation_total' => $item->item_variation_total,
                             'item_extra_total'     => $item->item_extra_total,
                             'total_price'          => $item->total_price,
                         ]);
 
                         // Handle file upload if attachment exists
-                        \Log::info("Checking for attachments.$i");
-                        \Log::info("All files in request: " . json_encode($request->allFiles()));
-                        
                         if ($request->hasFile("attachments.$i")) {
-                            \Log::info("Processing attachment for item $i: " . $request->file("attachments.$i")->getClientOriginalName());
                             try {
                                 $orderItem->addMediaFromRequest("attachments.$i")
                                     ->toMediaCollection('attachment');
-                                \Log::info("Successfully saved attachment for item $i");
                             } catch (\Exception $e) {
-                                \Log::error("Error saving attachment for item $i: " . $e->getMessage());
+                                Log::error("Error saving attachment for item $i: " . $e->getMessage());
                             }
                         } elseif ($request->hasFile("attachments[$i]")) {
-                            \Log::info("Processing attachment for item $i with bracket notation: " . $request->file("attachments[$i]")->getClientOriginalName());
                             try {
                                 $orderItem->addMediaFromRequest("attachments[$i]")
                                     ->toMediaCollection('attachment');
-                                \Log::info("Successfully saved attachment for item $i with bracket notation");
                             } catch (\Exception $e) {
-                                \Log::error("Error saving attachment for item $i with bracket notation: " . $e->getMessage());
+                                Log::error("Error saving attachment for item $i with bracket notation: " . $e->getMessage());
                             }
-                        } else {
-                            \Log::info("No attachment found for item $i");
                         }
 
                         $totalTax = $totalTax + $taxPrice;

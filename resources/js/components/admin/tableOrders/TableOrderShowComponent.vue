@@ -159,6 +159,16 @@
                                                 }}<span v-if="index + 1 < item.item_variations.length">,&nbsp;</span>
                                             </span>
                                         </p>
+
+                                        <p v-if="item.delivery_date" class="capitalize text-xs mb-1.5">
+                                            <span class="capitalize text-xs w-fit whitespace-nowrap">
+                                                {{ $t('label.delivery_date') }}:&nbsp;
+                                            </span>
+                                            <span class="text-xs">
+                                                {{ item.delivery_date }}
+                                            </span>
+                                        </p>
+
                                         <h3 class="text-xs font-semibold">{{ item.total_currency_price }}</h3>
                                     </div>
                                 </div>

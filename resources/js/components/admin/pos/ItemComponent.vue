@@ -218,6 +218,31 @@
                     <small class="db-field-alert" v-if="instructionError">{{ instructionError }}</small>
                 </div>
 
+                <div class="mb-4">
+                    <h3 class="text-xs leading-6 font-medium capitalize mb-2 text-heading">
+                        {{ $t('label.delivery_date') }}
+                    </h3>
+                    <input 
+                        v-model="temp.delivery_date" 
+                        type="date" 
+                        class="h-10 w-full rounded-lg border py-1.5 px-2 text-xs border-[#D9DBE9]"
+                        :min="getCurrentDate()"
+                    />
+                    <small class="text-xs text-gray-500">{{ $t('message.select_delivery_date') }}</small>
+                </div>
+
+                <div class="mb-4">
+                    <h3 class="text-xs leading-6 font-medium capitalize mb-2 text-heading">
+                        {{ $t('label.delivery_time') }}
+                    </h3>
+                    <input 
+                        v-model="temp.delivery_time" 
+                        type="time" 
+                        class="h-10 w-full rounded-lg border py-1.5 px-2 text-xs border-[#D9DBE9]"
+                    />
+                    <small class="text-xs text-gray-500">{{ $t('message.select_delivery_time') }}</small>
+                </div>
+
                 <div class="mb-6">
                     <h3 class="text-xs leading-6 font-medium capitalize mb-2 text-heading">
                         {{ $t('Attachment') || 'Attachment' }}
@@ -329,6 +354,8 @@ export default {
                 total_price: 0,
                 instruction: "",
                 attachment: null,
+                delivery_date: null,
+                delivery_time: null,
             },
             instructionError: ""
         }
@@ -421,6 +448,8 @@ export default {
             this.temp.total_price = 0;
             this.temp.instruction = "";
             this.temp.attachment = null;
+            this.temp.delivery_date = null;
+            this.temp.delivery_time = null;
 
             const modalDiv = this.$refs.itemVariationModal;
             modalDiv?.classList?.remove("active");
@@ -649,7 +678,9 @@ export default {
                     item_variation_total: this.temp.item_variation_total,
                     item_extra_total: this.temp.item_extra_total,
                     instruction: this.temp.instruction,
-                    attachment: this.temp.attachment
+                    attachment: this.temp.attachment,
+                    delivery_date: this.temp.delivery_date,
+                    delivery_time: this.temp.delivery_time,
                 }
             ];
 
@@ -696,6 +727,8 @@ export default {
                     this.temp.total_price = 0;
                     this.temp.instruction = "";
                     this.temp.attachment = null;
+                    this.temp.delivery_date = null;
+                    this.temp.delivery_time = null;
                     this.addons = {};
                     this.itemArrays = [];
 
@@ -704,6 +737,13 @@ export default {
                 }).catch();
             }
         },
+        getCurrentDate() {
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+            const yyyy = today.getFullYear();
+            return `${yyyy}-${mm}-${dd}`;
+        }
     },
     watch: {
         'temp.instruction'(val) {

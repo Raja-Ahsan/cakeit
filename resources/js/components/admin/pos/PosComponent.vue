@@ -81,7 +81,7 @@
                 <div class="db-field-radio-group gap-1 active-group">
 
                     <label @click="dineInOrder" ref="dineIn" for="dinein" data-dine="#dine"
-                        class="!w-fit db-field-radio px-2.5 py-2 rounded-lg border border-[#F7F7FC] bg-[#F7F7FC] active">
+                        class="!w-fit db-field-radio px-2.5 py-2 rounded-lg border border-[#F7F7FC] bg-[#F7F7FC] " style="display: none;">
                         <div class="custom-radio sm">
                             <input ref="dineInInput" type="radio" id="dinein" name="orderType"
                                 :value="orderTypeEnums.dineIn" v-model="checkoutProps.form.order_type"
@@ -93,7 +93,7 @@
                         </h3>
                     </label>
                     <label ref="takeAway" @click="takeAwayOrder" for="takeway"
-                        class="!w-fit db-field-radio px-2.5 py-2 rounded-lg border border-[#F7F7FC] bg-[#F7F7FC]">
+                        class="!w-fit db-field-radio px-2.5 py-2 rounded-lg border border-[#F7F7FC] bg-[#F7F7FC] active">
                         <div class="custom-radio sm">
                             <input ref="takeAwayInput" type="radio" id="takeway" name="orderType"
                                 :value="orderTypeEnums.takeAway" v-model="checkoutProps.form.order_type"
@@ -674,6 +674,8 @@ export default {
                     item_price: item.convert_price,
                     branch_id: this.checkoutProps.form.branch_id,
                     instruction: item.instruction,
+                    delivery_date: item.delivery_date,
+                    delivery_time: item.delivery_time,
                     quantity: item.quantity,
                     discount: item.discount,
                     total_price: item.total,

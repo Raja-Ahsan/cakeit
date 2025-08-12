@@ -112,6 +112,8 @@ export const tableCart = {
                             discount: pay.discount,
                             image: pay.image,
                             instruction: pay.instruction,
+                            delivery_date: pay.delivery_date,
+                            delivery_time: pay.delivery_time,
                             item_extra_total: pay.item_extra_total,
                             item_extras: pay.item_extras,
                             item_id: pay.item_id,

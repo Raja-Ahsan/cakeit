@@ -267,6 +267,8 @@ export default {
                     item_price: item.convert_price,
                     branch_id: this.checkoutProps.form.branch_id,
                     instruction: item.instruction,
+                    delivery_date: item.delivery_date,
+                    delivery_time: item.delivery_time,
                     quantity: item.quantity,
                     discount: item.discount,
                     total_price: item.total,

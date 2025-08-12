@@ -17,6 +17,13 @@
                         </span>
                     </div>
 
+                    <div class="flex flex-wrap items-center gap-2 mb-5" v-if="order.delivery_date">
+                        <span class="text-sm capitalize">{{ $t("label.delivery_date") }}:</span>
+                        <span class="text-sm capitalize text-heading">
+                            {{ order.delivery_date }}
+                        </span>
+                    </div>
+
                     <OrderStatusComponent :props="order" />
                     <div>
                         <h3 class="font-medium mb-2">{{ orderBranch.name }}</h3>
@@ -91,6 +98,15 @@
                                             <span class="text-xs">
                                                 {{ variation.name }}
                                             </span>
+                                        </span>
+                                    </p>
+
+                                    <p v-if="item.delivery_date" class="capitalize text-xs mb-1.5">
+                                        <span class="capitalize text-xs w-fit whitespace-nowrap">
+                                            {{ $t('label.delivery_date') }}:&nbsp;
+                                        </span>
+                                        <span class="text-xs">
+                                            {{ item.delivery_date }}
                                         </span>
                                     </p>
 

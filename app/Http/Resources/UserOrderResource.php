@@ -33,6 +33,8 @@ class UserOrderResource extends JsonResource
             'preparation_time'               => $this->preparation_time,
             'order_type'                     => $this->order_type,
             'order_datetime'                 => AppLibrary::datetime($this->order_datetime),
+            'delivery_date'                  => $this->orderItems->first()?->delivery_date ? AppLibrary::date($this->orderItems->first()->delivery_date) : null,
+            'delivery_time'                  => $this->orderItems->first()?->delivery_time,
             'status'                         => $this->status,
             'is_advance_order'               => $this->is_advance_order,
             'status_name'                    => trans('orderStatus.' . $this->status)

@@ -35,6 +35,8 @@ class OrderItemResource extends JsonResource
             'total_convert_price'              => AppLibrary::convertAmountFormat($this->total_price),
             'total_currency_price'             => AppLibrary::currencyAmountFormat($this->total_price),
             'instruction'                      => $this->instruction,
+            'delivery_date'                    => $this->delivery_date ? AppLibrary::date($this->delivery_date) : null,
+            'delivery_time'                    => $this->delivery_time,
             'attachment_url'                   => $this->attachment_url,
             'tax_type'                         => $this->tax_type === TaxType::FIXED ? env('CURRENCY') : '%',
             'tax_rate'                         => $this->tax_rate,

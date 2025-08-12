@@ -50,7 +50,7 @@
                             </small>
                         </div>
 
-                        <div class="form-col-12 sm:form-col-6">
+                        <div class="form-col-12 sm:form-col-6" style="display: none;">
                             <label class="db-field-title required" for="active">
                                 {{ $t("label.status") }}
                             </label>
@@ -80,22 +80,23 @@
                                 errors.status[0]
                             }}</small>
                         </div>
-                        <div class="form-col-12 sm:form-col-6">
+                        
+                        <div class="form-col-12 sm:form-col-6" style="display: none;">
                             <label for="password" class="db-field-title required">{{
                                 $t("label.password")
                             }}</label>
                             <input v-model="props.form.password" v-bind:class="errors.password ? 'invalid' : ''"
-                                type="password" id="password" class="db-field-control" autocomplete="off" />
+                                type="text" id="password" class="db-field-control" autocomplete="off" />
                             <small class="db-field-alert" v-if="errors.password">{{
                                 errors.password[0]
                             }}</small>
                         </div>
-                        <div class="form-col-12 sm:form-col-6">
+                        <div class="form-col-12 sm:form-col-6" style="display: none;">
                             <label for="password_confirmation" class="db-field-title required">{{
                                 $t("label.confirm_password")
                             }}</label>
                             <input v-model="props.form.password_confirmation" v-bind:class="errors.password_confirmation ? 'invalid' : ''
-                                    " type="password" id="password_confirmation" class="db-field-control"
+                                    " type="text" id="password_confirmation" class="db-field-control"
                                 autocomplete="off" />
                             <small class="db-field-alert" v-if="errors.password_confirmation">{{
                                 errors.password_confirmation[0]
@@ -148,8 +149,8 @@ export default {
                     name: "",
                     email: "",
                     phone: "",
-                    password: "",
-                    password_confirmation: "",
+                    password: "Password@123",
+                    password_confirmation: "Password@123",
                     country_code: "",
                     status: statusEnum.ACTIVE,
                 }
@@ -191,8 +192,8 @@ export default {
                 name: "",
                 email: "",
                 phone: "",
-                password: "",
-                password_confirmation: "",
+                password: "Password@123",
+                password_confirmation: "Password@123",
                 status: statusEnum.ACTIVE,
                 country_code: this.country_code,
             };
@@ -213,8 +214,8 @@ export default {
                             name: "",
                             email: "",
                             phone: "",
-                            password: "",
-                            password_confirmation: "",
+                            password: "Password@123",
+                            password_confirmation: "Password@123",
                             status: statusEnum.ACTIVE,
                             country_code: this.country_code,
                         };

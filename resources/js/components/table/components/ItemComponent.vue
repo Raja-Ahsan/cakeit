@@ -62,6 +62,7 @@
                         <span class="text-xs text-primary transition">{{ $t('button.add') }}</span>
                     </button>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -267,6 +268,31 @@
                         class="h-12 w-full rounded-lg border py-1.5 px-2 placeholder:text-[10px] placeholder:text-[#6E7191] border-[#D9DBE9]"></textarea>
                     <small class="db-field-alert" v-if="instructionError">{{ instructionError }}</small>
                 </div>
+
+                <div class="mb-4">
+                    <h3 class="text-xs leading-6 font-medium capitalize mb-2 text-heading">
+                        {{ $t('label.delivery_date') }}
+                    </h3>
+                    <input 
+                        v-model="temp.delivery_date" 
+                        type="date" 
+                        class="h-10 w-full rounded-lg border py-1.5 px-2 text-xs border-[#D9DBE9]"
+                        :min="getCurrentDate()"
+                    />
+                    <small class="text-xs text-gray-500">{{ $t('message.select_delivery_date') }}</small>
+                </div>
+
+                <div class="mb-4">
+                    <h3 class="text-xs leading-6 font-medium capitalize mb-2 text-heading">
+                        {{ $t('label.delivery_time') }}
+                    </h3>
+                    <input 
+                        v-model="temp.delivery_time" 
+                        type="time" 
+                        class="h-10 w-full rounded-lg border py-1.5 px-2 text-xs border-[#D9DBE9]"
+                    />
+                    <small class="text-xs text-gray-500">{{ $t('message.select_delivery_time') }}</small>
+                </div>
                 <button type="button" :disabled="temp.total_price <= 0" @click.prevent="addToCart"
                     class="flex items-center justify-center gap-3 rounded-3xl text-base py-3 px-3 font-medium w-full text-white bg-primary">
                     <i class="icon-bag-2"></i>
@@ -340,6 +366,8 @@ export default {
                 item_extra_total: 0,
                 total_price: 0,
                 instruction: "",
+                delivery_date: "",
+                delivery_time: "",
             },
             instructionError: ""
         }
@@ -404,6 +432,8 @@ export default {
                     this.temp.convert_price = item.offer.length > 0 ? item.offer[0].convert_price : item.convert_price;
                     this.temp.currency_price = item.offer.length > 0 ? item.offer[0].currency_price : item.currency_price;
                     this.temp.total_price = (item.offer.length > 0 ? item.offer[0].convert_price : item.convert_price) + this.temp.item_variation_total;
+                    this.temp.delivery_date = this.getCurrentDate();
+                    this.temp.delivery_time = "";
 
                     const modalTarget = this.$refs.itemVariationModal;
                     modalTarget?.classList?.add("active");
@@ -432,6 +462,8 @@ export default {
             this.temp.item_extra_total = 0;
             this.temp.total_price = 0;
             this.temp.instruction = "";
+            this.temp.delivery_date = "";
+            this.temp.delivery_time = "";
             this.addons = {};
 
             const modalDiv = this.$refs.itemVariationModal;
@@ -609,7 +641,9 @@ export default {
                     item_extras: this.temp.item_extras,
                     item_variation_total: this.temp.item_variation_total,
                     item_extra_total: this.temp.item_extra_total,
-                    instruction: this.temp.instruction
+                    instruction: this.temp.instruction,
+                    delivery_date: this.temp.delivery_date,
+                    delivery_time: this.temp.delivery_time,
                 }
             ];
 
@@ -628,7 +662,9 @@ export default {
                         item_extras: addon.item_extras,
                         item_variation_total: addon.item_variation_total,
                         item_extra_total: addon.item_extra_total,
-                        instruction: addon.instruction
+                        instruction: addon.instruction,
+                        delivery_date: addon.delivery_date,
+                        delivery_time: addon.delivery_time,
                     });
                 });
             }
@@ -655,6 +691,8 @@ export default {
                     this.temp.item_extra_total = 0;
                     this.temp.total_price = 0;
                     this.temp.instruction = "";
+                    this.temp.delivery_date = "";
+                    this.temp.delivery_time = "";
                     this.addons = {};
                     this.itemArrays = [];
 
@@ -663,6 +701,13 @@ export default {
                 }).catch();
             }
         },
+        getCurrentDate: function () {
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+            const yyyy = today.getFullYear();
+            return `${yyyy}-${mm}-${dd}`;
+        }
     },
     watch: {
         'temp.instruction'(val) {

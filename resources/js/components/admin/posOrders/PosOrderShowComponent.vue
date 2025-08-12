@@ -46,10 +46,10 @@
                             </span>
                         </li>
                         <li class="text-xs">{{
-                            $t('label.delivery_time')
+                            $t('label.delivery_date')
                         }}:
                             <span class="text-heading">
-                                {{ order.delivery_date }} {{ order.delivery_time }}
+                                {{ order.delivery_date }}
                             </span>
                         </li>
                         <li class="text-xs" v-if="order.token">{{
@@ -142,6 +142,25 @@
                                             v-if="index + 1 < item.item_variations.length">,&nbsp;</span>
                                     </span>
                                 </p>
+
+                                <p v-if="item.delivery_date" class="capitalize text-xs mb-1.5">
+                                    <span class="capitalize text-xs w-fit whitespace-nowrap">
+                                        {{ $t('label.delivery_date') }}:&nbsp;
+                                    </span>
+                                    <span class="text-xs">
+                                        {{ item.delivery_date }}
+                                    </span>
+                                </p>
+                                <p v-if="item.delivery_time" class="capitalize text-xs mb-1.5">
+                                    <span class="capitalize text-xs w-fit whitespace-nowrap">
+                                        {{ $t('label.delivery_time') }}:&nbsp;
+                                    </span>
+                                    <span class="text-xs">
+                                        {{ formatTime(item.delivery_time) }}
+                                       
+                                    </span>
+                                </p>
+
                                 <h3 class="text-xs font-semibold">{{ item.total_currency_price }}</h3>
                             </div>
                         </div>
@@ -465,6 +484,41 @@ export default {
                 document.body.removeChild(link);
             }
         },
+        formatTime: function (datetime) {
+            if (!datetime) return '';
+            
+            // If it's already a time string (HH:mm format), return as is
+            if (typeof datetime === 'string' && datetime.match(/^\d{2}:\d{2}$/)) {
+                return datetime;
+            }
+            
+            // If it's a datetime string, extract the time part
+            if (typeof datetime === 'string' && datetime.includes('T')) {
+                // Extract time from ISO format (2025-08-12T13:50:00.000000Z)
+                const timeMatch = datetime.match(/T(\d{2}:\d{2}):\d{2}/);
+                if (timeMatch) {
+                    return timeMatch[1];
+                }
+            }
+            
+            // If it's a Date object or other format, try to format it
+            try {
+                const date = new Date(datetime);
+                if (!isNaN(date.getTime())) {
+                    return date.toLocaleTimeString('en-US', { 
+                        hour12: false, 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    });
+                }
+            } catch (e) {
+                console.warn('Could not parse datetime:', datetime);
+            }
+            
+            // Fallback: return original value
+            return datetime;
+        },
     },
 }
 </script>
+

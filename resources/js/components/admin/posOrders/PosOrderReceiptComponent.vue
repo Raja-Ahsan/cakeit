@@ -57,11 +57,16 @@
                                 </p>
                                 <p v-if="item.item_extras.length > 0"
                                     class="text-xs leading-5 font-normal text-heading max-w-[200px]">
-                                    {{ $t('label.extras') }}:
+                                    {{ $t("label.extras") }}:
                                     <span v-for="(extra, index) in item.item_extras">
                                         {{ extra.name }}
                                         <span v-if="index + 1 < item.item_extras.length">, </span>
                                     </span>
+                                </p>
+
+                                <p v-if="item.delivery_date"
+                                    class="text-xs leading-5 font-normal text-heading max-w-[200px]">
+                                    {{ $t("label.delivery_date") }}: {{ item.delivery_date }}
                                 </p>
                                 <p v-if="item.instruction"
                                     class="text-xs leading-5 font-normal text-heading max-w-[200px]">

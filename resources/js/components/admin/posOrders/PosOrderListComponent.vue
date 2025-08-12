@@ -89,6 +89,7 @@
                             <th class="db-table-head-th">{{ $t('label.customer') }}</th>
                             <th class="db-table-head-th">{{ $t('label.amount') }}</th>
                             <th class="db-table-head-th">{{ $t('label.date') }}</th>
+                            <th class="db-table-head-th">{{ $t('label.delivery_date') }}</th>
                             <th class="db-table-head-th">{{ $t('label.status') }}</th>
                             <th class="db-table-head-th hidden-print" v-if="permissionChecker('pos-orders')">{{
                                 $t('label.action') }}</th>
@@ -110,6 +111,9 @@
                             <td class="db-table-body-td">{{ order.total_amount_price }}</td>
                             <td class="db-table-body-td">{{ order.order_datetime }}</td>
                             <td class="db-table-body-td">
+                                {{ formatDeliveryDate(order.delivery_date) }}
+                            </td>
+                            <td class="db-table-body-td">
                                 <span :class="orderStatusClass(order.status)">
                                     {{ enums.orderStatusEnumArray[order.status] }}
                                 </span>
@@ -126,7 +130,7 @@
                     </tbody>
                     <tbody class="db-table-body" v-else>
                         <tr class="db-table-body-tr">
-                            <td class="db-table-body-td text-center" colspan="7">
+                            <td class="db-table-body-td text-center" colspan="8">
                                 <div class="p-4">
                                     <div class="max-w-[300px] mx-auto mt-2">
                                         <img class="w-full h-full" :src="ENV.API_URL + '/images/default/not-found.png'"
@@ -371,6 +375,14 @@ export default {
                 alertService.error(err.response.data.message);
             });
         },
+        formatDeliveryDate: function (date) {
+            if (!date) {
+                return '-';
+            }
+            const deliveryDate = new Date(date);
+            const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+            return deliveryDate.toLocaleDateString(this.$i18n.locale, options);
+        }
     }
 }
 </script>

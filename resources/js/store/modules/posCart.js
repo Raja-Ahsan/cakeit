@@ -117,6 +117,8 @@ export const posCart = {
                             discount: pay.discount,
                             image: pay.image,
                             instruction: pay.instruction,
+                            delivery_date: pay.delivery_date,
+                            delivery_time: pay.delivery_time,
                             has_attachment: pay.attachment ? true : false, // Just store a flag
                             item_extra_total: pay.item_extra_total,
                             item_extras: pay.item_extras,

@@ -43,6 +43,12 @@
                   <p class="text-xs font-normal font-client capitalize text-[#6E7191]">{{ orderItem.instruction }}
                   </p>
                 </span>
+                <span class="flex gap-1" v-if="orderItem.delivery_date">
+                  <h3 class="capitalize text-xs w-fit whitespace-nowrap">{{ $t('label.delivery_date') }}:
+                  </h3>
+                  <p class="text-xs font-normal font-client capitalize text-[#6E7191]">{{ orderItem.delivery_date }}
+                  </p>
+                </span>
               </div>
               <div
                 class="text-sm font-medium w-6 h-6 rounded-full bg-black text-white flex items-center justify-center">{{
@@ -156,6 +162,14 @@
                             <span v-for="(extra, index) in item.item_extras" class="text-heading">
                               {{ extra.name }}<span v-if="index + 1 < item.item_extras.length">,&nbsp;</span>
                             </span>
+                          </p>
+                        </li>
+
+                        <li class="flex gap-1" v-if="item.delivery_date">
+                          <h3 class="capitalize text-xs w-fit whitespace-nowrap">{{ $t('label.delivery_date') }}:
+                          </h3>
+                          <p class="text-xs font-normal font-client capitalize text-[#6E7191]">
+                            {{ item.delivery_date }}
                           </p>
                         </li>
                       </div>
