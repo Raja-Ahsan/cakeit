@@ -52,6 +52,15 @@ class RolePermissionTableSeeder extends Seeder
                 ['name' => 'employees_edit'],
                 ['name' => 'employees_delete'],
                 ['name' => 'employees_show'],
+                ['name' => 'employee-attendance'],
+                ['name' => 'attendance_create'],
+                ['name' => 'attendance_edit'],
+                ['name' => 'attendance_delete'],
+                ['name' => 'attendance_show'],
+                ['name' => 'attendance_export'],
+                ['name' => 'attendance-settings'],
+                ['name' => 'attendance_assign'],
+                ['name' => 'attendance_history'],
                 ['name' => 'waiters'],
                 ['name' => 'waiters_create'],
                 ['name' => 'waiters_edit'],
@@ -89,6 +98,23 @@ class RolePermissionTableSeeder extends Seeder
             ];
             $chefPermissions = Permission::whereIn('name', $chefPermissions)->get();
             $chef->givePermissionTo($chefPermissions);
+        }
+
+        $attendanceManager = Role::find(EnumRole::ATTENDANCE_MANAGER);
+        if ($attendanceManager) {
+            $attendanceManagerPermissions = [
+                ['name' => 'dashboard'],
+                ['name' => 'employee-attendance'],
+                ['name' => 'attendance_create'],
+                ['name' => 'attendance_edit'],
+                ['name' => 'attendance_delete'],
+                ['name' => 'attendance_show'],
+                ['name' => 'attendance_export'],
+                ['name' => 'employees'],
+                ['name' => 'employees_show'],
+            ];
+            $attendanceManagerPermissions = Permission::whereIn('name', $attendanceManagerPermissions)->get();
+            $attendanceManager->givePermissionTo($attendanceManagerPermissions);
         }
     }
 }

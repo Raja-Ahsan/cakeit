@@ -49,6 +49,12 @@
                   <p class="text-xs font-normal font-client capitalize text-[#6E7191]">{{ orderItem.delivery_date }}
                   </p>
                 </span>
+                <span class="flex gap-1" v-if="orderItem.delivery_time">
+                  <h3 class="capitalize text-xs w-fit whitespace-nowrap">{{ $t('label.delivery_time') }}:
+                  </h3>
+                  <p class="text-xs font-normal font-client capitalize text-[#6E7191]">{{ orderItem.delivery_time }}
+                  </p>
+                </span>
               </div>
               <div
                 class="text-sm font-medium w-6 h-6 rounded-full bg-black text-white flex items-center justify-center">{{
@@ -170,6 +176,13 @@
                           </h3>
                           <p class="text-xs font-normal font-client capitalize text-[#6E7191]">
                             {{ item.delivery_date }}
+                          </p>
+                        </li>
+                        <li class="flex gap-1" v-if="item.delivery_time">
+                          <h3 class="capitalize text-xs w-fit whitespace-nowrap">{{ $t('label.delivery_time') }}:
+                          </h3>
+                          <p class="text-xs font-normal font-client capitalize text-[#6E7191]">
+                            {{ item.delivery_time }}
                           </p>
                         </li>
                       </div>

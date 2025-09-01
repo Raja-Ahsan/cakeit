@@ -28,6 +28,8 @@ import { role } from "./modules/role";
 import { permission } from "./modules/permission";
 import { theme } from './modules/theme';
 import { employee } from './modules/employee';
+import { attendance } from "./modules/attendance";
+import { attendanceAssignee } from "./modules/attendanceAssignee";
 import { employeeAddress } from './modules/employeeAddress';
 import { itemExtra } from './modules/itemExtra';
 import { itemAddon } from './modules/itemAddon';
@@ -106,6 +108,8 @@ export default new createStore({
         permission,
         theme,
         employee,
+        attendance,
+        attendanceAssignee,
         employeeAddress,
         itemExtra,
         itemAddon,

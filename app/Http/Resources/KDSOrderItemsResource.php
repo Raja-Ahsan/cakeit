@@ -21,7 +21,7 @@ class KDSOrderItemsResource extends JsonResource
             'quantity'        => $this->quantity,
             'instruction'     => $this->instruction,
             'delivery_date'   => $this->delivery_date ? \App\Libraries\AppLibrary::date($this->delivery_date) : null,
-            'delivery_time'   => $this->delivery_time,
+            'delivery_time'   => $this->delivery_time ? \App\Libraries\AppLibrary::time($this->delivery_time) : null,
             'item_variations' => json_decode($this->item_variations),
             'item_extras'     => json_decode($this->item_extras),
         ];

@@ -47,11 +47,11 @@ export const employee = {
         lists: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let url = "admin/employee";
-                if (payload) {
+                if (payload && payload !== null) {
                     url = url + appService.requestHandler(payload);
                 }
                 axios.get(url).then((res) => {
-                    if (typeof payload.vuex === "undefined" || payload.vuex === true) {
+                    if (!payload || typeof payload.vuex === "undefined" || payload.vuex === true) {
                         context.commit("lists", res.data.data);
                         context.commit("page", res.data.meta);
                         context.commit("pagination", res.data);

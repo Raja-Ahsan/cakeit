@@ -41,11 +41,8 @@ class KitchenDisplaySystemOrderService
             $orderType   = $request->get('order_by') ?? 'desc';
 
             return Order::with('orderItems')->whereIn('status', [OrderStatus::ACCEPT, OrderStatus::PREPARING, OrderStatus::PREPARED])->where(function ($query) {
-                $query->where(function ($subQuery) {
-                    $subQuery->whereDate('order_datetime', Carbon::today())->where('is_advance_order', Ask::NO);
-                })->orWhere(function ($subQuery) {
-                    $subQuery->where('is_advance_order', Ask::YES)->whereDate('order_datetime',  Carbon::yesterday());
-                });
+                // Show orders from the last 7 days instead of just today/yesterday
+                $query->whereDate('order_datetime', '>=', Carbon::now()->subDays(7));
             })->where(function ($query) use ($requests) {
                 foreach ($requests as $key => $request) {
                     if (in_array($key, $this->orderFilter)) {
@@ -93,11 +90,8 @@ class KitchenDisplaySystemOrderService
     {
         try {
             $orders = Order::with('orderItems')->where('status', OrderStatus::PREPARING)->where(function ($query) {
-                $query->where(function ($subQuery) {
-                    $subQuery->whereDate('order_datetime', Carbon::today())->where('is_advance_order', Ask::NO);
-                })->orWhere(function ($subQuery) {
-                    $subQuery->where('is_advance_order', Ask::YES)->whereDate('order_datetime',  Carbon::yesterday());
-                });
+                // Show orders from the last 7 days instead of just today/yesterday
+                $query->whereDate('order_datetime', '>=', Carbon::now()->subDays(7));
             })->get();
 
             $allItems = $orders->pluck('orderItems')->flatten();

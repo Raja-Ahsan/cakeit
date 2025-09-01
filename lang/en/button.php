@@ -1,0 +1,8 @@
+    'add_attendance' => 'Add Attendance',
+    'edit_attendance' => 'Edit Attendance',
+    'assign_manager' => 'Assign Manager',
+    'remove_manager' => 'Remove Manager',
+    'filter' => 'Filter',
+    'clear' => 'Clear',
+    'previous' => 'Previous',
+    'next' => 'Next',

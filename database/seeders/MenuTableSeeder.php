@@ -198,6 +198,16 @@ class MenuTableSeeder extends Seeder
                         'created_at' => now(),
                         'updated_at' => now()
                     ],
+                    [
+                        'name'       => 'Employee Attendance',
+                        'language'   => 'employee_attendance',
+                        'url'        => 'attendance',
+                        'icon'       => 'lab lab-attendance',
+                        'priority'   => 100,
+                        'status'     => 1,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ],
                 ]
             ],
             [

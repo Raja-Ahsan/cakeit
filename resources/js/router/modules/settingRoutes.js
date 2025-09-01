@@ -33,6 +33,7 @@ import PaymentGatewayComponent from "../../components/admin/settings/PaymentGate
 import SmsGatewayComponent from "../../components/admin/settings/SmsGateway/SmsGatewayComponent";
 import NotificationAlertComponent from "../../components/admin/settings/NotificationAlert/NotificationAlertComponent";
 import NotificationComponent from "../../components/admin/settings/Notification/NotificationComponent";
+import AttendanceComponent from "../../components/admin/settings/AttendanceComponent";
 
 export default [
     {
@@ -67,6 +68,17 @@ export default [
                     auth: true,
                     permissionUrl: "settings",
                     breadcrumb: "site",
+                },
+            },
+            {
+                path: "attendance",
+                component: AttendanceComponent,
+                name: "admin.settings.attendance",
+                meta: {
+                    isFrontend: false,
+                    auth: true,
+                    permissionUrl: "settings",
+                    breadcrumb: "attendance",
                 },
             },
             {

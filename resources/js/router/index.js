@@ -12,6 +12,7 @@ import itemRoutes from "./modules/itemRoutes";
 import customerRoutes from "./modules/customerRoutes";
 import administratorRoutes from "./modules/administratorRoutes";
 import employeeRoutes from "./modules/employeeRoutes";
+import attendanceRoutes from "./modules/attendanceRoutes";
 import salesReportRoutes from "./modules/salesReportRoutes";
 import itemsReportRoutes from "./modules/itemsReportRoutes";
 import posRoutes from "./modules/posRoutes";
@@ -68,6 +69,7 @@ export const routes = baseRoutes.concat(
     customerRoutes,
     administratorRoutes,
     employeeRoutes,
+    attendanceRoutes,
     salesReportRoutes,
     itemsReportRoutes,
     profileRoutes,

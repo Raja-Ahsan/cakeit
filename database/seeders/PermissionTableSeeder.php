@@ -359,6 +359,82 @@ class PermissionTableSeeder extends Seeder
                 ]
             ],
             [
+                'title'      => 'Employee Attendance',
+                'name'       => 'employee-attendance',
+                'guard_name' => 'sanctum',
+                'url'        => 'employee-attendance',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'Attendance Create',
+                        'name'       => 'attendance_create',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'attendance/create',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Attendance Edit',
+                        'name'       => 'attendance_edit',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'attendance/edit',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Attendance Delete',
+                        'name'       => 'attendance_delete',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'attendance/delete',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Attendance Show',
+                        'name'       => 'attendance_show',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'attendance/show',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'Attendance Export',
+                        'name'       => 'attendance_export',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'attendance/export',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
+            ],
+            [
+                'title'      => 'Attendance Settings',
+                'name'       => 'attendance-settings',
+                'guard_name' => 'sanctum',
+                'url'        => 'attendance-settings',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'Assign Attendance Manager',
+                        'name'       => 'attendance_assign',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'attendance-settings/assign',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'View Assignment History',
+                        'name'       => 'attendance_history',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'attendance-settings/history',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
+            ],
+            [
                 'title'      => 'Waiters',
                 'name'       => 'waiters',
                 'guard_name' => 'sanctum',

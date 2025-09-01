@@ -7,6 +7,14 @@
             </router-link>
             <button @click.prevent="handleSidebar" class="fa-solid fa-xmark xmark-btn close-db-menu"></button>
         </div>
+        <ul>
+            <li>
+                <router-link to="/admin/attendance" class="db-sidebar-nav-menu">
+                    <i class="text-sm lab lab-calendar-line"></i>
+                    <span class="text-base flex-auto">{{ $t('Employee Attendance') }}</span>
+                </router-link>
+            </li>
+        </ul>
         <!--        {{ menus }}-->
         <nav class="db-sidebar-nav">
             <ul class="db-sidebar-nav-list" v-if="menus.length > 0" v-for="menu in menus" :key="menu">
@@ -32,6 +40,7 @@
                 </li>
             </ul>
         </nav>
+        
     </aside>
 </template>
 

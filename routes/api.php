@@ -75,6 +75,8 @@ use App\Http\Controllers\Admin\TableOrderController as AdminTableOrderController
 use App\Http\Controllers\Frontend\LanguageController as FrontendLanguageController;
 use App\Http\Controllers\Table\DiningTableController as TableDiningTableController;
 use App\Http\Controllers\Table\ItemCategoryController as TableItemCategoryController;
+use App\Http\Controllers\Admin\EmployeeAttendanceController;
+use App\Http\Controllers\Admin\AttendanceAssigneeController;
 
 
 /*
@@ -349,6 +351,28 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::delete('/address/{employee}/{address}', [EmployeeAddressController::class, 'destroy']);
     });
 
+    // Employee Attendance Routes
+    Route::prefix('employee-attendance')->name('employee-attendance.')->group(function () {
+        Route::get('/', [EmployeeAttendanceController::class, 'index']);
+        Route::post('/', [EmployeeAttendanceController::class, 'store']);
+        Route::get('/show/{id}', [EmployeeAttendanceController::class, 'show']);
+        Route::match(['put', 'patch'], '/{id}', [EmployeeAttendanceController::class, 'update']);
+        Route::delete('/{id}', [EmployeeAttendanceController::class, 'destroy']);
+        
+        Route::get('/today', [EmployeeAttendanceController::class, 'todayAttendance']);
+        Route::post('/check-in/{employeeId}', [EmployeeAttendanceController::class, 'markCheckIn']);
+        Route::post('/check-out/{employeeId}', [EmployeeAttendanceController::class, 'markCheckOut']);
+    });
+
+    // Attendance Assignee Routes
+    Route::prefix('attendance-assignee')->name('attendance-assignee.')->group(function () {
+        Route::get('/', [AttendanceAssigneeController::class, 'index']);
+        Route::post('/', [AttendanceAssigneeController::class, 'store']);
+        Route::delete('/', [AttendanceAssigneeController::class, 'destroy']);
+        Route::get('/debug', [AttendanceAssigneeController::class, 'debug']);
+        Route::get('/test', [AttendanceAssigneeController::class, 'test']);
+    });
+
 
     Route::prefix('offer')->name('offer.')->group(function () {
         Route::get('/', [OfferController::class, 'index']);
@@ -452,6 +476,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::get('/total-orders', [DashboardController::class, 'totalOrders']);
         Route::get('/total-customers', [DashboardController::class, 'totalCustomers']);
         Route::get('/total-menu-items', [DashboardController::class, 'totalMenuItems']);
+        Route::get('/orders-by-status', [DashboardController::class, 'ordersByStatus']);
         Route::get('/sales-summary', [DashboardController::class, 'salesSummary']);
         Route::get('/customer-states', [DashboardController::class, 'customerStates']);
         Route::get('/featured-items', [DashboardController::class, 'featuredItems']);

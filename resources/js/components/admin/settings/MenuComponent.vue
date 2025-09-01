@@ -35,6 +35,11 @@
                 {{ $t("menu.notification_alert") }}
             </router-link>
 
+            <router-link :to="{ name: 'admin.settings.attendance' }" class="db-tab-btn">
+                <i class="lab lab-calendar-line text-sm"></i>
+                {{ $t("menu.attendance") }}
+            </router-link>
+
             <router-link :to="{ name: 'admin.settings.analytic' }" class="db-tab-btn">
                 <i class="lab lab-analytics text-sm"></i>
                 {{ $t("menu.analytics") }}

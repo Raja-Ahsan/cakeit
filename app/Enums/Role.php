@@ -11,4 +11,5 @@ interface Role
     const BRANCH_MANAGER = 5;
     const POS_OPERATOR   = 6;
     const STUFF          = 7;
+    const ATTENDANCE_MANAGER = 8;
 }

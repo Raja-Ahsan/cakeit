@@ -119,7 +119,8 @@ class DashboardService
                 $first_date = Date('Y-m-01', strtotime(Carbon::today()->toDateString()));
                 $last_date  = Date('Y-m-t', strtotime(Carbon::today()->toDateString()));
             }
-            return Order::where('status', OrderStatus::DELIVERED)->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
+            // Count all orders instead of just delivered orders
+            return Order::whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
@@ -154,6 +155,36 @@ class DashboardService
                 $last_date  = Date('Y-m-t', strtotime(Carbon::today()->toDateString()));
             }
             return Item::whereDate('created_at', '>=', $first_date)->whereDate('created_at', '<=', $last_date)->count();
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
+
+    public function ordersByStatus(Request $request)
+    {
+        try {
+            if ($request->first_date && $request->last_date) {
+                $first_date = Date('Y-m-d', strtotime($request->first_date));
+                $last_date  = Date('Y-m-d', strtotime($request->last_date));
+            } else {
+                $first_date = Date('Y-m-01', strtotime(Carbon::today()->toDateString()));
+                $last_date  = Date('Y-m-t', strtotime(Carbon::today()->toDateString()));
+            }
+            
+            $orders = Order::whereDate('order_datetime', '>=', $first_date)
+                ->whereDate('order_datetime', '<=', $last_date)
+                ->get();
+            
+            return [
+                'total' => $orders->count(),
+                'pending' => $orders->where('status', OrderStatus::PENDING)->count(),
+                'accepted' => $orders->where('status', OrderStatus::ACCEPT)->count(),
+                'preparing' => $orders->where('status', OrderStatus::PREPARING)->count(),
+                'prepared' => $orders->where('status', OrderStatus::PREPARED)->count(),
+                'delivered' => $orders->where('status', OrderStatus::DELIVERED)->count(),
+                'canceled' => $orders->where('status', OrderStatus::CANCELED)->count(),
+            ];
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);

@@ -57,6 +57,12 @@ class RoleTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name'       => 'Attendance Manager',
+                'guard_name' => 'sanctum',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }

@@ -36,6 +36,7 @@
         "analytic_section": "Analytic Section",
         "role_permissions": "Role & Permissions",
         "role": "Role",
+        "attendance": "Attendance Settings",
         "variations": "Variations",
         "extras": "Extras",
         "addons": "Addons",
@@ -78,7 +79,8 @@
         "k_d_s": "K.D.S",
         "o_s_s": "O.S.S",
         "chefs": "Chefs",
-        "waiters": "Waiters"
+        "waiters": "Waiters",
+        "employee_attendance": "Employee Attendance"
     },
     "label": {
         "previous": "Previous",
@@ -605,7 +607,27 @@
         "total_amount": "Total Amount",
         "select_payment_method": "Select Payment Method",
         "confirm_and_print": "Confirm & Print Reciept",
-        "dine_in": "Dine-In"
+        "dine_in": "Dine-In",
+        "employee_attendance": "Employee Attendance",
+        "current_attendance_manager": "Current Attendance Manager",
+        "no_attendance_manager": "No attendance manager is currently assigned",
+        "assign_attendance_manager": "Assign Attendance Manager",
+        "select_employee": "Select Employee",
+        "assignment_history": "Assignment History",
+        "assigned_by": "Assigned By",
+        "assigned_date": "Assigned Date",
+        "attendance_settings": "Attendance Settings",
+        "today_attendance": "Today's Attendance",
+        "working_hours": "Working Hours",
+        "start_date": "Start Date",
+        "end_date": "End Date",
+        "check_in": "Check In",
+        "check_out": "Check Out",
+        "notes": "Notes",
+        "date": "Date",
+        "status": "Status",
+        "employee": "Employee",
+        "actions": "Actions"
     },
     "button": {
         "add": "Add",
@@ -695,7 +717,17 @@
         "upload_file": "Upload File",
         "pdf": "PDF",
         "add_waiter": "Add Waiter",
-        "add_chef": "Add Chef"
+        "add_chef": "Add Chef",
+        "assign_manager": "Assign Manager",
+        "remove_manager": "Remove Manager",
+        "add_attendance": "Add Attendance",
+        "edit_attendance": "Edit Attendance",
+        "filter": "Filter",
+        "clear": "Clear",
+        "previous": "Previous",
+        "next": "Next",
+        "cancel": "Cancel",
+        "update": "Update"
     },
     "number": {
         "10": "10",
