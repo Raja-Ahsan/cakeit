@@ -28,6 +28,7 @@ class OrderItemResource extends JsonResource
             'quantity'                         => $this->quantity,
             'discount'                         => AppLibrary::currencyAmountFormat($this->discount),
             'price'                            => AppLibrary::currencyAmountFormat($this->price),
+            'custom_price'                     => $this->custom_price ? AppLibrary::currencyAmountFormat($this->custom_price) : null,
             'item_variations'                  => json_decode($this->item_variations),
             'item_extras'                      => json_decode($this->item_extras),
             'item_variation_currency_total'    => AppLibrary::currencyAmountFormat($this->item_variation_total),

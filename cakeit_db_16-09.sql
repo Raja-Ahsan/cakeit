@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 05, 2025 at 12:05 AM
+-- Generation Time: Sep 15, 2025 at 10:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `cake_it`
+-- Database: `new_cakeit_db`
 --
 
 -- --------------------------------------------------------
@@ -35,7 +35,7 @@ CREATE TABLE `addons` (
   `version` varchar(255) DEFAULT NULL,
   `date` datetime DEFAULT NULL,
   `author` varchar(255) DEFAULT NULL,
-  `files` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`files`)),
+  `files` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `item_id` varchar(255) NOT NULL,
   `license_code` varchar(255) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 5 COMMENT '5=Active, 10=Inactive',
@@ -45,7 +45,7 @@ CREATE TABLE `addons` (
   `editor_id` bigint(20) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -106,6 +106,30 @@ CREATE TABLE `analytic_sections` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `attendance_assignee`
+--
+
+CREATE TABLE `attendance_assignee` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `employee_id` bigint(20) UNSIGNED NOT NULL,
+  `assigned_by` bigint(20) UNSIGNED NOT NULL,
+  `assigned_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `attendance_assignee`
+--
+
+INSERT INTO `attendance_assignee` (`id`, `employee_id`, `assigned_by`, `assigned_at`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 3, 1, '2025-08-30 00:33:26', 0, '2025-08-29 19:33:26', '2025-09-01 16:25:34'),
+(7, 11, 1, '2025-09-01 18:23:48', 1, '2025-09-01 13:23:48', '2025-09-01 16:25:34');
 
 -- --------------------------------------------------------
 
@@ -200,7 +224,8 @@ CREATE TABLE `default_access` (
 --
 
 INSERT INTO `default_access` (`id`, `name`, `user_id`, `default_id`, `created_at`, `updated_at`) VALUES
-(1, 'branch_id', 1, 1, '2025-07-02 23:51:50', '2025-07-02 23:51:50');
+(1, 'branch_id', 1, 1, '2025-07-02 23:51:50', '2025-07-02 23:51:50'),
+(2, 'branch_id', 3, 1, '2025-08-29 19:35:02', '2025-08-29 19:35:02');
 
 -- --------------------------------------------------------
 
@@ -223,6 +248,34 @@ CREATE TABLE `dining_tables` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_attendance`
+--
+
+CREATE TABLE `employee_attendance` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `employee_id` bigint(20) UNSIGNED NOT NULL,
+  `date` date NOT NULL,
+  `check_in` time DEFAULT NULL,
+  `check_out` time DEFAULT NULL,
+  `status` enum('present','absent','late','half_day','leave') NOT NULL DEFAULT 'present',
+  `notes` text DEFAULT NULL,
+  `created_by` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `employee_attendance`
+--
+
+INSERT INTO `employee_attendance` (`id`, `employee_id`, `date`, `check_in`, `check_out`, `status`, `notes`, `created_by`, `created_at`, `updated_at`) VALUES
+(2, 3, '2025-09-01', '23:55:00', '23:59:00', 'present', 'Check In', 3, '2025-09-01 13:55:52', '2025-09-01 14:25:43'),
+(5, 11, '2025-09-01', '02:26:00', NULL, 'present', NULL, 3, '2025-09-01 16:26:24', '2025-09-01 16:26:24'),
+(6, 3, '2025-09-15', '22:58:00', NULL, 'present', NULL, 1, '2025-09-15 12:58:38', '2025-09-15 12:58:38');
 
 -- --------------------------------------------------------
 
@@ -416,8 +469,10 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id`, `item_category_id`, `tax_id`, `name`, `slug`, `caution`, `description`, `price`, `status`, `item_type`, `order`, `is_featured`, `is_variable`, `creator_type`, `creator_id`, `editor_type`, `editor_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 1, NULL, 'Test', 'test', 'dasd', 'asd', 10.000000, 5, 5, 1, 5, 10, NULL, NULL, NULL, NULL, NULL, '2025-07-02 13:05:22', '2025-07-02 13:05:22'),
-(2, 1, NULL, 'Testss', 'testss', 'asd', NULL, 0.000000, 5, 5, 1, 5, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-02 13:10:47', '2025-07-02 13:10:47');
+(1, 1, NULL, 'Base Ball Cake', 'base-ball-cake', 'dasd', 'asd', 0.001000, 5, 5, 1, 5, 10, NULL, NULL, NULL, NULL, NULL, '2025-07-02 13:05:22', '2025-07-08 16:08:49'),
+(2, 1, NULL, 'Base Ball Cake', 'base-ball-cake', NULL, NULL, 0.000000, 5, 10, 1, 5, 5, NULL, NULL, NULL, NULL, '2025-07-08 16:08:29', '2025-07-02 13:10:47', '2025-07-08 16:08:29'),
+(3, 2, NULL, 'Frozen Theme Cupcakes', 'frozen-theme-cupcakes', NULL, NULL, 0.001000, 5, 10, 1, 5, 0, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:13:09', '2025-07-08 16:13:09'),
+(4, 1, NULL, 'Chocolate', 'chocolate', NULL, NULL, 10.000000, 5, 5, 1, 5, 0, NULL, NULL, NULL, NULL, '2025-08-05 10:45:29', '2025-07-16 15:20:56', '2025-08-05 10:45:29');
 
 -- --------------------------------------------------------
 
@@ -429,7 +484,7 @@ CREATE TABLE `item_addons` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `item_id` bigint(20) UNSIGNED NOT NULL,
   `addon_item_id` bigint(20) UNSIGNED NOT NULL,
-  `addon_item_variation` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`addon_item_variation`)),
+  `addon_item_variation` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `creator_type` varchar(255) DEFAULT NULL,
   `creator_id` bigint(20) DEFAULT NULL,
   `editor_type` varchar(255) DEFAULT NULL,
@@ -437,7 +492,7 @@ CREATE TABLE `item_addons` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -467,7 +522,8 @@ INSERT INTO `item_attributes` (`id`, `name`, `status`, `creator_type`, `creator_
 (3, 'Cake Filling', 5, NULL, NULL, NULL, NULL, '2025-07-02 12:35:14', '2025-07-02 12:35:14'),
 (4, 'Cupcake Flavor', 5, NULL, NULL, NULL, NULL, '2025-07-02 12:36:29', '2025-07-02 12:36:29'),
 (5, 'Number of cupcakes', 5, NULL, NULL, NULL, NULL, '2025-07-02 12:36:57', '2025-07-02 12:36:57'),
-(6, 'Color', 5, NULL, NULL, NULL, NULL, '2025-07-02 12:37:10', '2025-07-02 12:37:10');
+(6, 'Color', 5, NULL, NULL, NULL, NULL, '2025-07-02 12:37:10', '2025-07-02 12:37:10'),
+(7, 'Cake Outside Frosting', 5, NULL, NULL, NULL, NULL, '2025-08-05 10:25:49', '2025-08-05 10:25:49');
 
 -- --------------------------------------------------------
 
@@ -547,7 +603,56 @@ CREATE TABLE `item_variations` (
 --
 
 INSERT INTO `item_variations` (`id`, `item_id`, `item_attribute_id`, `name`, `price`, `caution`, `status`, `creator_type`, `creator_id`, `editor_type`, `editor_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 2, 5, 'asdas', 0.000000, 'asd', 5, NULL, NULL, NULL, NULL, NULL, '2025-07-02 13:11:09', '2025-07-02 13:11:09');
+(1, 2, 5, 'asdas', 0.000000, 'asd', 5, NULL, NULL, NULL, NULL, '2025-07-08 16:08:29', '2025-07-02 13:11:09', '2025-07-08 16:08:29'),
+(2, 1, 1, '8 inches 2 layers', 80.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:09:49', '2025-07-08 16:09:49'),
+(3, 1, 1, '8 inches 3 layers', 95.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:10:12', '2025-07-08 16:10:12'),
+(4, 1, 2, 'Chocolate', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:10:35', '2025-07-08 16:10:35'),
+(5, 1, 2, 'Funfetti', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:10:46', '2025-07-08 16:10:46'),
+(6, 1, 2, 'Vanilla', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:11:04', '2025-07-08 16:11:04'),
+(7, 1, 3, 'Chocolate Buttercream', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:11:49', '2025-07-08 16:11:49'),
+(8, 1, 3, 'Raspberry', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:11:58', '2025-07-08 16:11:58'),
+(9, 1, 3, 'Strawberry', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:12:07', '2025-07-08 16:12:07'),
+(10, 1, 3, 'Vanilla Buttercream', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:12:15', '2025-07-08 16:12:15'),
+(11, 3, 5, '12', 30.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:13:50', '2025-07-08 16:13:50'),
+(12, 3, 5, '24', 60.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:14:01', '2025-07-08 16:14:01'),
+(13, 3, 4, 'Vanilla', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:14:27', '2025-07-08 16:14:27'),
+(14, 3, 4, 'Chocolate', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:14:39', '2025-07-08 16:14:39'),
+(15, 3, 4, 'Chocolate & Vanilla', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:15:08', '2025-07-08 16:15:08'),
+(16, 1, 7, 'Vanilla Buttercream.', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:28:33', '2025-08-05 10:28:33'),
+(17, 1, 7, 'Chocolate Buttercream.', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:28:53', '2025-08-05 10:28:53'),
+(18, 1, 7, 'Cream Cheese Icing', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:29:17', '2025-08-05 10:29:17'),
+(19, 1, 2, 'Marble', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:31:36', '2025-08-05 10:31:36'),
+(20, 1, 2, 'Strawberry.', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:31:59', '2025-08-05 10:31:59'),
+(21, 1, 2, 'Lemon', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:32:32', '2025-08-05 10:32:32'),
+(22, 1, 2, 'Toll House', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:33:06', '2025-08-05 10:33:06'),
+(23, 1, 2, 'Red Velvet', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:33:21', '2025-08-05 10:33:21'),
+(24, 1, 2, 'Carrot', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:33:35', '2025-08-05 10:33:35'),
+(25, 1, 2, 'Almond Roca', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:33:50', '2025-08-05 10:33:50'),
+(26, 1, 2, 'Hummingbird', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:34:09', '2025-08-05 10:34:09'),
+(27, 1, 3, 'Strawberry Buttercream', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:35:20', '2025-08-05 10:35:20'),
+(28, 1, 3, 'Raspberry Buttercream', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:35:38', '2025-08-05 10:35:38'),
+(29, 1, 3, 'Lemon.', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:36:27', '2025-08-05 10:36:27'),
+(30, 1, 3, 'Lemon Buttercream', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:36:38', '2025-08-05 10:36:38'),
+(31, 1, 3, 'Mocha Buttercream', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:37:00', '2025-08-05 10:37:00'),
+(32, 1, 3, 'Fudge', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:37:10', '2025-08-05 10:37:10'),
+(33, 1, 3, 'Cream Cheese', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:37:24', '2025-08-05 10:37:24'),
+(34, 1, 3, 'Oreo Buttercream', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:37:40', '2025-08-05 10:37:40'),
+(35, 1, 3, 'Peanut Buttercream', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:37:57', '2025-08-05 10:37:57'),
+(36, 1, 3, 'German Chocolate', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:38:13', '2025-08-05 10:38:13'),
+(37, 1, 1, '6 inch 3 layers', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:39:38', '2025-08-05 10:39:38'),
+(38, 1, 1, '9 inch 2 layers', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:40:00', '2025-08-05 10:40:00'),
+(39, 1, 1, '9 inch 3 layers', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:40:14', '2025-08-05 10:40:14'),
+(40, 1, 1, '10 inch 2 layers', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:40:34', '2025-08-05 10:40:34'),
+(41, 1, 1, '10 inch 3 layers', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:40:49', '2025-08-05 10:40:49'),
+(42, 1, 1, '12 inch 2 layers', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:41:08', '2025-08-05 10:41:08'),
+(43, 1, 1, '12 inch 3 layers', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:41:22', '2025-08-05 10:41:22'),
+(44, 1, 1, '1/4 Sheet', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:41:43', '2025-08-05 10:41:43'),
+(45, 1, 1, '1/2 Sheet', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:42:01', '2025-08-05 10:42:01'),
+(46, 1, 1, '2 tiers 8 inch and 6 inch', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:42:31', '2025-08-05 10:42:31'),
+(47, 1, 1, '2 tiers 9 inch and 6 inch', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:42:53', '2025-08-05 10:42:53'),
+(48, 1, 1, '2 tiers 10 inch and 6 inch', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:44:14', '2025-08-05 10:44:14'),
+(49, 1, 1, '2 tiers 10 inch and 8 inch', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:44:28', '2025-08-05 10:44:28'),
+(50, 1, 1, 'Others', 0.000000, NULL, 5, NULL, NULL, NULL, NULL, NULL, '2025-08-05 10:44:47', '2025-08-05 10:44:47');
 
 -- --------------------------------------------------------
 
@@ -594,14 +699,14 @@ CREATE TABLE `media` (
   `disk` varchar(255) NOT NULL,
   `conversions_disk` varchar(255) DEFAULT NULL,
   `size` bigint(20) UNSIGNED NOT NULL,
-  `manipulations` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`manipulations`)),
-  `custom_properties` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`custom_properties`)),
-  `generated_conversions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`generated_conversions`)),
-  `responsive_images` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`responsive_images`)),
+  `manipulations` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `custom_properties` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `generated_conversions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `responsive_images` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `order_column` int(10) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ;
 
 --
 -- Dumping data for table `media`
@@ -630,16 +735,31 @@ INSERT INTO `media` (`id`, `model_type`, `model_id`, `uuid`, `collection_name`, 
 (20, 'App\\Models\\PaymentGateway', 20, '78d3b9f4-0cc7-46e6-b2c1-332bac76aeec', 'payment-gateway', 'pesapal', 'pesapal.png', 'image/png', 'public', 'public', 9373, '[]', '[]', '[]', '[]', 1, '2025-07-02 23:48:06', '2025-07-02 23:48:06'),
 (21, 'App\\Models\\PaymentGateway', 21, '32a6c522-fcc3-4258-a1c3-a674509dda42', 'payment-gateway', 'midtrans', 'midtrans.png', 'image/png', 'public', 'public', 5877, '[]', '[]', '[]', '[]', 1, '2025-07-02 23:48:06', '2025-07-02 23:48:06'),
 (22, 'App\\Models\\Language', 1, 'e14f01cd-8703-4c44-8c5e-44db7fb277c1', 'language', 'english', 'english.png', 'image/png', 'public', 'public', 1149, '[]', '[]', '[]', '[]', 1, '2025-07-02 23:48:09', '2025-07-02 23:48:09'),
-(26, 'App\\Models\\ThemeSetting', 56, '80a9acca-f243-476f-8443-df3179b10932', 'theme-logo', 'cakeit-logo', 'cakeit-logo.jpg', 'image/jpeg', 'public', 'public', 4408, '[]', '[]', '[]', '[]', 1, '2025-07-03 00:11:03', '2025-07-03 00:11:03'),
-(27, 'App\\Models\\ThemeSetting', 57, '90075647-9eb5-4149-aa0a-912958973aa9', 'theme-favicon-logo', 'cropped-cakeit-logo-removebg-preview', 'cropped-cakeit-logo-removebg-preview.png', 'image/png', 'public', 'public', 161172, '[]', '[]', '[]', '[]', 1, '2025-07-03 00:11:03', '2025-07-03 00:11:03'),
-(28, 'App\\Models\\ThemeSetting', 58, '7350839c-5670-434e-b253-859bea6ede05', 'theme-footer-logo', 'cakeit-logo', 'cakeit-logo.jpg', 'image/jpeg', 'public', 'public', 4408, '[]', '[]', '[]', '[]', 1, '2025-07-03 00:11:04', '2025-07-03 00:11:04'),
-(29, 'App\\Models\\ItemCategory', 1, '61597651-b1fd-4cb1-b3be-039fbc6a504e', 'item-category', 'Best-Birthday-cakes-2-500x500', 'Best-Birthday-cakes-2-500x500.jpg', 'image/jpeg', 'public', 'public', 39058, '[]', '[]', '{\"thumb\":true,\"cover\":true}', '[]', 1, '2025-07-02 12:33:40', '2025-07-02 12:33:44'),
-(30, 'App\\Models\\ItemCategory', 2, 'c92438ce-0009-4016-abe5-c13ef3bb443f', 'item-category', 'Best-Birthday-cakes-2-500x500', 'Best-Birthday-cakes-2-500x500.jpg', 'image/jpeg', 'public', 'public', 39058, '[]', '[]', '{\"thumb\":true,\"cover\":true}', '[]', 1, '2025-07-02 12:34:04', '2025-07-02 12:34:05'),
 (31, 'App\\Models\\Item', 1, '8570bdb4-5d7b-4df1-a5af-cf175a3ca842', 'item', 'IMG_9944-600x618', 'IMG_9944-600x618.jpg', 'image/jpeg', 'public', 'public', 50933, '[]', '[]', '{\"thumb\":true,\"cover\":true,\"preview\":true}', '[]', 1, '2025-07-02 13:05:22', '2025-07-02 13:05:23'),
 (32, 'App\\Models\\Item', 2, 'ab63ba51-0b01-4c70-ad9e-dba03fac8d75', 'item', 'IMG_4077_1-667x1000', 'IMG_4077_1-667x1000.jpg', 'image/jpeg', 'public', 'public', 75941, '[]', '[]', '{\"thumb\":true,\"cover\":true,\"preview\":true}', '[]', 1, '2025-07-02 13:10:47', '2025-07-02 13:10:49'),
 (33, 'App\\Models\\OrderItem', 9, '468b6730-6ab7-4d4c-aadf-b9a92d524de5', 'attachment', 'GO4TRADES_CARD_GRAY', 'GO4TRADES_CARD_GRAY.png', 'image/png', 'public', 'public', 73789, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-07-04 05:54:12', '2025-07-04 05:54:19'),
 (34, 'App\\Models\\OrderItem', 10, '0d675b59-ca29-456c-91d2-ef6a84d7fdf2', 'attachment', 'Chocolate-mini-cake', 'Chocolate-mini-cake.webp', 'image/webp', 'public', 'public', 137550, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-07-04 06:23:08', '2025-07-04 06:23:09'),
-(35, 'App\\Models\\OrderItem', 11, 'e10598d0-7f45-4f79-bbd7-3acc3feeff67', 'attachment', 'Mary_Grace_Lolly_Cake', 'Mary_Grace_Lolly_Cake.jpg', 'image/jpeg', 'public', 'public', 145717, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-07-04 07:06:26', '2025-07-04 07:06:27');
+(35, 'App\\Models\\OrderItem', 11, 'e10598d0-7f45-4f79-bbd7-3acc3feeff67', 'attachment', 'Mary_Grace_Lolly_Cake', 'Mary_Grace_Lolly_Cake.jpg', 'image/jpeg', 'public', 'public', 145717, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-07-04 07:06:26', '2025-07-04 07:06:27'),
+(36, 'App\\Models\\ThemeSetting', 56, 'ea0fce3d-9996-4402-8f05-91ae8b9ddc69', 'theme-logo', 'cakeit-logo', 'cakeit-logo.jpg', 'image/jpeg', 'public', 'public', 4408, '[]', '[]', '[]', '[]', 1, '2025-07-07 12:16:46', '2025-07-07 12:16:46'),
+(37, 'App\\Models\\ThemeSetting', 57, '2e19fe28-392a-4db1-84cc-86ac4642eddd', 'theme-favicon-logo', 'cropped-cakeit-logo-removebg-preview', 'cropped-cakeit-logo-removebg-preview.png', 'image/png', 'public', 'public', 161172, '[]', '[]', '[]', '[]', 1, '2025-07-07 12:16:46', '2025-07-07 12:16:46'),
+(38, 'App\\Models\\ThemeSetting', 58, '75ffda8c-9cf8-4cce-b790-e1d9f339cd14', 'theme-footer-logo', 'cakeit-logo', 'cakeit-logo.jpg', 'image/jpeg', 'public', 'public', 4408, '[]', '[]', '[]', '[]', 1, '2025-07-07 12:16:46', '2025-07-07 12:16:46'),
+(39, 'App\\Models\\ItemCategory', 1, '48d27c11-8598-4133-838a-0c6eb7415e8d', 'item-category', 'Best-Birthday-cakes-2-500x500', 'Best-Birthday-cakes-2-500x500.jpg', 'image/jpeg', 'public', 'public', 39058, '[]', '[]', '{\"thumb\":true,\"cover\":true}', '[]', 1, '2025-07-07 12:25:51', '2025-07-07 12:25:51'),
+(40, 'App\\Models\\ItemCategory', 2, '2ca4fe0e-925c-45e2-abe4-1ba341260174', 'item-category', 'IMG_4077_1-667x1000', 'IMG_4077_1-667x1000.jpg', 'image/jpeg', 'public', 'public', 75941, '[]', '[]', '{\"thumb\":true,\"cover\":true}', '[]', 1, '2025-07-07 12:26:05', '2025-07-07 12:26:05'),
+(41, 'App\\Models\\Item', 2, '5d4910a6-8693-426e-aa95-55ed35ef4668', 'item', 'Mary_Grace_Lolly_Cake', 'Mary_Grace_Lolly_Cake.jpg', 'image/jpeg', 'public', 'public', 145717, '[]', '[]', '{\"thumb\":true,\"cover\":true,\"preview\":true}', '[]', 2, '2025-07-07 12:26:47', '2025-07-07 12:26:47'),
+(42, 'App\\Models\\Item', 1, '5c4964b5-7136-42d5-84d4-177f5594468a', 'item', 'IMG_9944-600x618', 'IMG_9944-600x618.jpg', 'image/jpeg', 'public', 'public', 50933, '[]', '[]', '{\"thumb\":true,\"cover\":true,\"preview\":true}', '[]', 2, '2025-07-07 12:27:10', '2025-07-07 12:27:10'),
+(43, 'App\\Models\\Item', 3, '6e501d42-aec8-4ed7-942e-2bee45c3af06', 'item', 'Screenshot 2025-07-05 012241', 'Screenshot-2025-07-05-012241.png', 'image/png', 'public', 'public', 503641, '[]', '[]', '{\"thumb\":true,\"cover\":true,\"preview\":true}', '[]', 1, '2025-07-08 16:13:09', '2025-07-08 16:13:10'),
+(44, 'App\\Models\\OrderItem', 18, '679dc646-ebd7-4029-9ec5-aed1995dd0b9', 'attachment', 'about-us section', 'about-us-section.PNG', 'image/png', 'public', 'public', 235076, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-08-11 10:34:28', '2025-08-11 10:34:34'),
+(45, 'App\\Models\\OrderItem', 19, '18e8766d-e041-4dc2-a1b0-3b1954f65776', 'attachment', 'animation button', 'animation-button.PNG', 'image/png', 'public', 'public', 51912, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-08-11 10:50:07', '2025-08-11 10:50:08'),
+(46, 'App\\Models\\OrderItem', 20, '47aba86f-d7b4-4481-96a2-d731373191bc', 'attachment', 'animation button', 'animation-button.PNG', 'image/png', 'public', 'public', 51912, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-08-11 10:51:23', '2025-08-11 10:51:24'),
+(47, 'App\\Models\\OrderItem', 21, 'b8d5b8c9-4814-461c-8d3e-c9cecad98a2f', 'attachment', 'favicon', 'favicon.png', 'image/png', 'public', 'public', 7357, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-08-11 11:05:12', '2025-08-11 11:05:13'),
+(48, 'App\\Models\\OrderItem', 22, 'e23c8f7c-12a8-40db-9356-3427d0b314dd', 'attachment', 'about-us section', 'about-us-section.PNG', 'image/png', 'public', 'public', 235076, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-08-11 11:24:28', '2025-08-11 11:24:29'),
+(49, 'App\\Models\\OrderItem', 24, '0fb28eb2-bddb-473a-9477-09698f72056b', 'attachment', 'favicon', 'favicon.png', 'image/png', 'public', 'public', 7357, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-08-11 12:11:21', '2025-08-11 12:11:23'),
+(50, 'App\\Models\\OrderItem', 25, '299c3047-22b8-411a-9c8b-489ec55b774e', 'attachment', 'about-us section', 'about-us-section.PNG', 'image/png', 'public', 'public', 235076, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-08-11 13:16:06', '2025-08-11 13:16:06'),
+(57, 'App\\Models\\OrderItem', 46, '3ebc22d9-592f-40dd-aaef-16dd06952b34', 'attachment', 'Capture', 'Capture.PNG', 'image/png', 'public', 'public', 636354, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-08-12 04:49:23', '2025-08-12 04:49:25'),
+(58, 'App\\Models\\OrderItem', 49, 'c5e5c637-7588-4d1f-82e3-445b541d0066', 'attachment', 'Rectangle 10', 'Rectangle-10.png', 'image/png', 'public', 'public', 179215, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-08-12 09:41:41', '2025-08-12 09:41:47'),
+(59, 'App\\Models\\OrderItem', 51, '321891ba-5dec-4c4a-9b72-522e9483a5a1', 'attachment', 'image 3', 'image-3.png', 'image/png', 'public', 'public', 19508, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-08-12 09:56:13', '2025-08-12 09:56:14'),
+(60, 'App\\Models\\OrderItem', 53, 'b1b8554d-e523-4de8-ad95-8e8a16217746', 'attachment', 'general-construction', 'general-construction.png', 'image/png', 'public', 'public', 442935, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-09-15 15:16:30', '2025-09-15 15:16:36'),
+(61, 'App\\Models\\OrderItem', 54, 'd56bd940-fe83-4162-8e31-66e4a3986dc5', 'attachment', 'general-construction', 'general-construction.png', 'image/png', 'public', 'public', 442935, '[]', '[]', '{\"thumb\":true,\"preview\":true}', '[]', 1, '2025-09-15 15:21:12', '2025-09-15 15:21:14');
 
 -- --------------------------------------------------------
 
@@ -690,7 +810,8 @@ INSERT INTO `menus` (`id`, `name`, `language`, `url`, `icon`, `status`, `parent`
 (22, 'Items Report', 'items_report', 'items-report', 'lab lab-items-report', 1, 20, 1, 100, '2025-07-02 23:47:48', '2025-07-02 23:47:48'),
 (23, 'Credit Balance Report', 'credit_balance_report', 'credit-balance-report', 'lab lab-credit-balance-report', 1, 20, 1, 100, '2025-07-02 23:47:48', '2025-07-02 23:47:48'),
 (24, 'Setup', 'setup', '#', 'lab ', 1, 0, 1, 100, '2025-07-02 23:47:48', '2025-07-02 23:47:48'),
-(25, 'Settings', 'settings', 'settings', 'lab lab-settings', 1, 24, 1, 100, '2025-07-02 23:47:48', '2025-07-02 23:47:48');
+(25, 'Settings', 'settings', 'settings', 'lab lab-settings', 1, 24, 1, 100, '2025-07-02 23:47:48', '2025-07-02 23:47:48'),
+(26, 'Employee Attendance', 'employee_attendance', 'attendance', 'lab lab-attendance', 1, 12, 1, 100, '2025-09-01 12:31:11', '2025-09-01 16:13:36');
 
 -- --------------------------------------------------------
 
@@ -842,7 +963,13 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (52, '2024_10_28_000000_add_pos_payment_method_and_note_to_orders_table', 1),
 (53, '2025_02_09_000000_add_pos_received_amount_to_orders_table', 1),
 (54, '2025_07_02_174459_add_is_variable_to_items_table', 2),
-(55, '2025_01_27_000000_add_attachment_to_order_items_table', 3);
+(55, '2025_01_27_000000_add_attachment_to_order_items_table', 3),
+(57, '2025_01_28_000000_add_delivery_date_to_order_items_table', 4),
+(58, '2025_08_11_180748_add_delivery_time_to_order_items_table', 5),
+(59, '2025_08_11_181049_add_delivery_time_to_order_items_table', 5),
+(60, '2025_01_28_000000_create_employee_attendance_table', 6),
+(61, '2025_01_28_000001_create_attendance_assignee_table', 6),
+(62, '2025_09_15_201209_add_custom_price_to_order_items_table', 7);
 
 -- --------------------------------------------------------
 
@@ -874,7 +1001,16 @@ CREATE TABLE `model_has_roles` (
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (1, 'App\\Models\\User', 1),
-(2, 'App\\Models\\User', 2);
+(2, 'App\\Models\\User', 2),
+(2, 'App\\Models\\User', 5),
+(2, 'App\\Models\\User', 6),
+(2, 'App\\Models\\User', 7),
+(2, 'App\\Models\\User', 8),
+(2, 'App\\Models\\User', 9),
+(2, 'App\\Models\\User', 10),
+(4, 'App\\Models\\User', 4),
+(10, 'App\\Models\\User', 3),
+(10, 'App\\Models\\User', 11);
 
 -- --------------------------------------------------------
 
@@ -1004,18 +1140,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `order_serial_no`, `token`, `user_id`, `branch_id`, `subtotal`, `discount`, `delivery_charge`, `total_tax`, `total`, `order_type`, `order_datetime`, `delivery_time`, `preparation_time`, `is_advance_order`, `payment_method`, `pos_payment_method`, `pos_received_amount`, `pos_payment_note`, `payment_status`, `status`, `dining_table_id`, `delivery_boy_id`, `reason`, `source`, `creator_type`, `creator_id`, `editor_type`, `editor_id`, `created_at`, `updated_at`) VALUES
-(1, '0407251', '001', 2, 1, 20.000000, 0.000000, 0.000000, 0.000000, 20.000000, 10, '2025-07-04 04:41:06', '09:41 - 10:11', 30, 10, 1, 1, 20.000000, NULL, 5, 4, NULL, NULL, NULL, '15', NULL, NULL, NULL, NULL, '2025-07-04 04:41:06', '2025-07-04 04:41:06'),
-(2, '0407252', '2222', 2, 1, 10.000000, 0.000000, 0.000000, 0.000000, 10.000000, 10, '2025-07-04 04:46:45', '09:46 - 10:16', 30, 10, 1, 1, 10.000000, NULL, 5, 4, NULL, NULL, NULL, '15', NULL, NULL, NULL, NULL, '2025-07-04 04:46:45', '2025-07-04 04:46:45'),
-(3, '0407253', '0013', 2, 1, 10.000000, 0.000000, 0.000000, 0.000000, 10.000000, 10, '2025-07-04 05:00:15', '10:00 - 10:30', 30, 10, 1, 1, 10.000000, NULL, 5, 4, NULL, NULL, NULL, '15', NULL, NULL, NULL, NULL, '2025-07-04 05:00:15', '2025-07-04 05:00:16'),
-(4, '0407254', '23423', 2, 1, 10.000000, 0.000000, 0.000000, 0.000000, 10.000000, 10, '2025-07-04 05:04:22', '10:04 - 10:34', 30, 10, 1, 1, 10.000000, NULL, 5, 4, NULL, NULL, NULL, '15', NULL, NULL, NULL, NULL, '2025-07-04 05:04:22', '2025-07-04 05:04:23'),
-(5, '0407255', '324', 2, 1, 10.000000, 0.000000, 0.000000, 0.000000, 10.000000, 10, '2025-07-04 05:23:50', '10:23 - 10:53', 30, 10, 1, 1, 10.000000, NULL, 5, 4, NULL, NULL, NULL, '15', NULL, NULL, NULL, NULL, '2025-07-04 05:23:50', '2025-07-04 05:23:51'),
-(6, '0407256', '2323', 2, 1, 10.000000, 0.000000, 0.000000, 0.000000, 10.000000, 10, '2025-07-04 05:41:00', '10:41 - 11:11', 30, 10, 1, 1, 10.000000, NULL, 5, 4, NULL, NULL, NULL, '15', NULL, NULL, NULL, NULL, '2025-07-04 05:41:00', '2025-07-04 05:41:01'),
-(7, '0407257', '232', 2, 1, 10.000000, 0.000000, 0.000000, 0.000000, 10.000000, 10, '2025-07-04 05:42:57', '10:42 - 11:12', 30, 10, 1, 1, 10.000000, NULL, 5, 4, NULL, NULL, NULL, '15', NULL, NULL, NULL, NULL, '2025-07-04 05:42:57', '2025-07-04 05:42:57'),
-(8, '0407258', '00122', 2, 1, 10.000000, 0.000000, 0.000000, 0.000000, 10.000000, 10, '2025-07-04 05:46:34', '10:46 - 11:16', 30, 10, 1, 1, 10.000000, NULL, 5, 4, NULL, NULL, NULL, '15', NULL, NULL, NULL, NULL, '2025-07-04 05:46:34', '2025-07-04 05:46:35'),
-(9, '0407259', '11100', 2, 1, 10.000000, 0.000000, 0.000000, 0.000000, 10.000000, 10, '2025-07-04 05:54:10', '10:54 - 11:24', 30, 10, 1, 1, 10.000000, NULL, 5, 7, NULL, NULL, NULL, '15', NULL, NULL, NULL, NULL, '2025-07-04 05:54:10', '2025-07-04 05:55:21'),
-(10, '04072510', '11102', 2, 1, 20.000000, 0.000000, 0.000000, 0.000000, 20.000000, 10, '2025-07-04 06:23:08', '11:23 - 11:53', 30, 10, 1, 1, 20.000000, NULL, 5, 4, NULL, NULL, NULL, '15', NULL, NULL, NULL, NULL, '2025-07-04 06:23:08', '2025-07-04 06:23:09'),
-(11, '04072511', '98168', 2, 1, 40.000000, 0.000000, 0.000000, 0.000000, 40.000000, 10, '2025-07-04 07:06:26', '12:06 - 12:36', 30, 10, 1, 1, 40.000000, NULL, 5, 4, NULL, NULL, NULL, '15', NULL, NULL, NULL, NULL, '2025-07-04 07:06:26', '2025-07-04 07:06:27'),
-(12, '04072512', '1111', 2, 1, 10.000000, 0.000000, 0.000000, 0.000000, 10.000000, 10, '2025-07-04 07:07:13', '12:07 - 12:37', 30, 10, 1, 1, 10.000000, NULL, 5, 4, NULL, NULL, NULL, '15', NULL, NULL, NULL, NULL, '2025-07-04 07:07:13', '2025-07-04 07:07:13');
+(64, '15092564', '85227', 2, 1, 20.000000, 0.000000, 0.000000, 0.000000, 20.000000, 10, '2025-09-15 15:16:28', '20:16 - 20:46', 30, 10, 1, 1, 20.000000, NULL, 5, 4, NULL, NULL, NULL, '15', NULL, NULL, NULL, NULL, '2025-09-15 15:16:28', '2025-09-15 15:16:36'),
+(65, '15092565', '47136', 2, 1, 450.000000, 0.000000, 0.000000, 0.000000, 450.000000, 10, '2025-09-15 15:21:12', '20:21 - 20:51', 30, 10, 1, 1, 450.000000, NULL, 5, 7, NULL, NULL, NULL, '15', NULL, NULL, NULL, NULL, '2025-09-15 15:21:12', '2025-09-15 15:21:55');
 
 -- --------------------------------------------------------
 
@@ -1054,12 +1180,15 @@ CREATE TABLE `order_items` (
   `tax_type` tinyint(4) DEFAULT NULL,
   `tax_amount` decimal(19,6) DEFAULT NULL,
   `price` decimal(19,6) NOT NULL,
+  `custom_price` decimal(19,6) DEFAULT NULL,
   `item_variations` longtext DEFAULT NULL,
   `item_extras` longtext DEFAULT NULL,
   `item_variation_total` decimal(19,6) DEFAULT 0.000000,
   `item_extra_total` decimal(19,6) DEFAULT 0.000000,
   `total_price` decimal(19,6) DEFAULT 0.000000,
   `instruction` text DEFAULT NULL,
+  `delivery_date` date DEFAULT NULL,
+  `delivery_time` time DEFAULT NULL,
   `attachment` varchar(255) DEFAULT NULL,
   `creator_type` varchar(255) DEFAULT NULL,
   `creator_id` bigint(20) DEFAULT NULL,
@@ -1073,19 +1202,9 @@ CREATE TABLE `order_items` (
 -- Dumping data for table `order_items`
 --
 
-INSERT INTO `order_items` (`id`, `order_id`, `branch_id`, `item_id`, `quantity`, `discount`, `tax_name`, `tax_rate`, `tax_type`, `tax_amount`, `price`, `item_variations`, `item_extras`, `item_variation_total`, `item_extra_total`, `total_price`, `instruction`, `attachment`, `creator_type`, `creator_id`, `editor_type`, `editor_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 2, 0.000000, NULL, 0.000000, 5, 0.000000, 10.000000, '[]', '[]', 0.000000, 0.000000, 20.000000, '', NULL, NULL, NULL, NULL, NULL, '2025-07-04 04:41:06', '2025-07-04 04:41:06'),
-(2, 2, 1, 1, 1, 0.000000, NULL, 0.000000, 5, 0.000000, 10.000000, '[]', '[]', 0.000000, 0.000000, 10.000000, 'asdas', NULL, NULL, NULL, NULL, NULL, '2025-07-04 04:46:45', '2025-07-04 04:46:45'),
-(3, 3, 1, 1, 1, 0.000000, NULL, 0.000000, 5, 0.000000, 10.000000, '[]', '[]', 0.000000, 0.000000, 10.000000, 'dasd', NULL, NULL, NULL, NULL, NULL, '2025-07-04 05:00:16', '2025-07-04 05:00:16'),
-(4, 4, 1, 1, 1, 0.000000, NULL, 0.000000, 5, 0.000000, 10.000000, '[]', '[]', 0.000000, 0.000000, 10.000000, 'fgdf', NULL, NULL, NULL, NULL, NULL, '2025-07-04 05:04:23', '2025-07-04 05:04:23'),
-(5, 5, 1, 1, 1, 0.000000, NULL, 0.000000, 5, 0.000000, 10.000000, '[]', '[]', 0.000000, 0.000000, 10.000000, 'fgdgdfg', NULL, NULL, NULL, NULL, NULL, '2025-07-04 05:23:50', '2025-07-04 05:23:50'),
-(6, 6, 1, 1, 1, 0.000000, NULL, 0.000000, 5, 0.000000, 10.000000, '[]', '[]', 0.000000, 0.000000, 10.000000, 'sdfsdf', NULL, NULL, NULL, NULL, NULL, '2025-07-04 05:41:00', '2025-07-04 05:41:00'),
-(7, 7, 1, 1, 1, 0.000000, NULL, 0.000000, 5, 0.000000, 10.000000, '[]', '[]', 0.000000, 0.000000, 10.000000, 'sdasd', NULL, NULL, NULL, NULL, NULL, '2025-07-04 05:42:57', '2025-07-04 05:42:57'),
-(8, 8, 1, 1, 1, 0.000000, NULL, 0.000000, 5, 0.000000, 10.000000, '[]', '[]', 0.000000, 0.000000, 10.000000, 'sadasd', NULL, NULL, NULL, NULL, NULL, '2025-07-04 05:46:35', '2025-07-04 05:46:35'),
-(9, 9, 1, 1, 1, 0.000000, NULL, 0.000000, 5, 0.000000, 10.000000, '[]', '[]', 0.000000, 0.000000, 10.000000, 'asasas', NULL, NULL, NULL, NULL, NULL, '2025-07-04 05:54:10', '2025-07-04 05:54:10'),
-(10, 10, 1, 1, 2, 0.000000, NULL, 0.000000, 5, 0.000000, 10.000000, '[]', '[]', 0.000000, 0.000000, 20.000000, 'dasd', NULL, NULL, NULL, NULL, NULL, '2025-07-04 06:23:08', '2025-07-04 06:23:08'),
-(11, 11, 1, 1, 4, 0.000000, NULL, 0.000000, 5, 0.000000, 10.000000, '[]', '[]', 0.000000, 0.000000, 40.000000, '', NULL, NULL, NULL, NULL, NULL, '2025-07-04 07:06:26', '2025-07-04 07:06:26'),
-(12, 12, 1, 1, 1, 0.000000, NULL, 0.000000, 5, 0.000000, 10.000000, '[]', '[]', 0.000000, 0.000000, 10.000000, 'hjh', NULL, NULL, NULL, NULL, NULL, '2025-07-04 07:07:13', '2025-07-04 07:07:13');
+INSERT INTO `order_items` (`id`, `order_id`, `branch_id`, `item_id`, `quantity`, `discount`, `tax_name`, `tax_rate`, `tax_type`, `tax_amount`, `price`, `custom_price`, `item_variations`, `item_extras`, `item_variation_total`, `item_extra_total`, `total_price`, `instruction`, `delivery_date`, `delivery_time`, `attachment`, `creator_type`, `creator_id`, `editor_type`, `editor_id`, `created_at`, `updated_at`) VALUES
+(53, 64, 1, 1, 1, 0.000000, NULL, 0.000000, 5, 0.000000, 0.000000, NULL, '\"[{\\\"id\\\":38,\\\"item_id\\\":1,\\\"item_attribute_id\\\":\\\"1\\\",\\\"variation_name\\\":\\\"Cake Size\\\",\\\"name\\\":\\\"9 inch 2 layers\\\"},{\\\"id\\\":19,\\\"item_id\\\":1,\\\"item_attribute_id\\\":\\\"2\\\",\\\"variation_name\\\":\\\"Cake Flavour\\\",\\\"name\\\":\\\"Marble\\\"},{\\\"id\\\":10,\\\"item_id\\\":1,\\\"item_attribute_id\\\":\\\"3\\\",\\\"variation_name\\\":\\\"Cake Filling\\\",\\\"name\\\":\\\"Vanilla Buttercream\\\"},{\\\"id\\\":18,\\\"item_id\\\":1,\\\"item_attribute_id\\\":\\\"7\\\",\\\"variation_name\\\":\\\"Cake Outside Frosting\\\",\\\"name\\\":\\\"Cream Cheese Icing\\\"}]\"', '\"[]\"', 0.000000, 0.000000, 20.000000, 'test', '2025-09-17', '01:16:00', NULL, NULL, NULL, NULL, NULL, '2025-09-15 15:16:28', '2025-09-15 15:16:28'),
+(54, 65, 1, 1, 5, 0.000000, NULL, 0.000000, 5, 0.000000, 0.000000, NULL, '\"[{\\\"id\\\":42,\\\"item_id\\\":1,\\\"item_attribute_id\\\":\\\"1\\\",\\\"variation_name\\\":\\\"Cake Size\\\",\\\"name\\\":\\\"12 inch 2 layers\\\"},{\\\"id\\\":4,\\\"item_id\\\":1,\\\"item_attribute_id\\\":\\\"2\\\",\\\"variation_name\\\":\\\"Cake Flavour\\\",\\\"name\\\":\\\"Chocolate\\\"},{\\\"id\\\":7,\\\"item_id\\\":1,\\\"item_attribute_id\\\":\\\"3\\\",\\\"variation_name\\\":\\\"Cake Filling\\\",\\\"name\\\":\\\"Chocolate Buttercream\\\"},{\\\"id\\\":16,\\\"item_id\\\":1,\\\"item_attribute_id\\\":\\\"7\\\",\\\"variation_name\\\":\\\"Cake Outside Frosting\\\",\\\"name\\\":\\\"Vanilla Buttercream.\\\"}]\"', '\"[]\"', 0.000000, 0.000000, 450.000000, '', '2025-09-19', '13:20:00', NULL, NULL, NULL, NULL, NULL, '2025-09-15 15:21:12', '2025-09-15 15:21:12');
 
 -- --------------------------------------------------------
 
@@ -1258,7 +1377,17 @@ INSERT INTO `permissions` (`id`, `title`, `name`, `guard_name`, `url`, `parent`,
 (53, 'Sales Report', 'sales-report', 'sanctum', 'sales-report', 0, '2025-07-02 23:47:49', '2025-07-02 23:47:49'),
 (54, 'Items Report', 'items-report', 'sanctum', 'items-report', 0, '2025-07-02 23:47:49', '2025-07-02 23:47:49'),
 (55, 'Credit Balance Report', 'credit-balance-report', 'sanctum', 'credit-balance-report', 0, '2025-07-02 23:47:49', '2025-07-02 23:47:49'),
-(56, 'Settings', 'settings', 'sanctum', 'settings', 0, '2025-07-02 23:47:49', '2025-07-02 23:47:49');
+(56, 'Settings', 'settings', 'sanctum', 'settings', 0, '2025-07-02 23:47:49', '2025-07-02 23:47:49'),
+(57, 'Employee Attendance', 'employee-attendance', 'sanctum', 'employee-attendance', 0, '2025-09-01 12:17:15', '2025-09-01 12:17:15'),
+(58, 'Attendance Create', 'attendance_create', 'sanctum', 'attendance/create', 0, '2025-09-01 12:17:15', '2025-09-01 12:17:15'),
+(59, 'Attendance Edit', 'attendance_edit', 'sanctum', 'attendance/edit', 0, '2025-09-01 12:17:15', '2025-09-01 12:17:15'),
+(60, 'Attendance Delete', 'attendance_delete', 'sanctum', 'attendance/delete', 0, '2025-09-01 12:17:15', '2025-09-01 12:17:15'),
+(61, 'Attendance Show', 'attendance_show', 'sanctum', 'attendance/show', 0, '2025-09-01 12:17:15', '2025-09-01 12:17:15'),
+(62, 'Attendance Export', 'attendance_export', 'sanctum', 'attendance/export', 0, '2025-09-01 12:17:15', '2025-09-01 12:17:15'),
+(63, 'Attendance Settings', 'attendance-settings', 'sanctum', 'attendance-settings', 0, '2025-09-01 12:17:15', '2025-09-01 12:17:15'),
+(64, 'Assign Attendance Manager', 'attendance_assign', 'sanctum', 'attendance-settings/assign', 0, '2025-09-01 12:17:15', '2025-09-01 12:17:15'),
+(65, 'View Assignment History', 'attendance_history', 'sanctum', 'attendance-settings/history', 0, '2025-09-01 12:17:15', '2025-09-01 12:17:15'),
+(66, NULL, 'attendance', 'sanctum', NULL, 0, '2025-09-01 16:13:55', '2025-09-01 16:13:55');
 
 -- --------------------------------------------------------
 
@@ -1286,7 +1415,16 @@ CREATE TABLE `personal_access_tokens` (
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
 (3, 'App\\Models\\User', 1, 'auth_token', 'ed64401781f0de73cb001f86cc55ffc5404bb5e71ff33ee187e44fcf361bb6dd', '[\"*\"]', '2025-07-03 05:20:53', NULL, '2025-07-03 00:13:46', '2025-07-03 05:20:53'),
 (4, 'App\\Models\\User', 1, 'auth_token', '3ef562d2d43d77be55186f668f5a68ca7f9f38a4f22fb2cbf181452b6faa3262', '[\"*\"]', '2025-07-03 05:22:48', NULL, '2025-07-03 05:21:16', '2025-07-03 05:22:48'),
-(5, 'App\\Models\\User', 1, 'auth_token', '443d665d7eebb7642b661b28856c5bae342c1c926fd3c24442288937dab77f93', '[\"*\"]', '2025-07-04 11:02:21', NULL, '2025-07-03 05:23:03', '2025-07-04 11:02:21');
+(5, 'App\\Models\\User', 1, 'auth_token', '443d665d7eebb7642b661b28856c5bae342c1c926fd3c24442288937dab77f93', '[\"*\"]', '2025-07-04 11:02:21', NULL, '2025-07-03 05:23:03', '2025-07-04 11:02:21'),
+(6, 'App\\Models\\User', 1, 'auth_token', '66d3ab00d2bc935083323cec3e1ad05e4bf97f513d88fcf8ea583f4f419eb03c', '[\"*\"]', '2025-08-06 13:59:32', NULL, '2025-07-07 12:13:35', '2025-08-06 13:59:32'),
+(8, 'App\\Models\\User', 1, 'auth_token', 'a1ce212b678362e04bc5e6b5b49011d4c2dc88ccb2bdb8afb8c6c23d455610ae', '[\"*\"]', '2025-08-05 10:45:33', NULL, '2025-07-08 15:51:45', '2025-08-05 10:45:33'),
+(11, 'App\\Models\\User', 1, 'auth_token', '01a63cdfd179423b21b5e3c0586260a2dd1ef4f0d34fc2773d96ca62389bf19a', '[\"*\"]', '2025-08-08 10:50:12', NULL, '2025-07-16 15:19:54', '2025-08-08 10:50:12'),
+(12, 'App\\Models\\User', 1, 'auth_token', '8ffdc06e114249c75545cec8e7c99e12a536d9bfc8adec7f14b60c5d39cde0e5', '[\"*\"]', '2025-07-16 17:35:03', NULL, '2025-07-16 17:33:23', '2025-07-16 17:35:03'),
+(13, 'App\\Models\\User', 1, 'auth_token', 'b1337a858e0eb2a61fc4637fd71d73c7e3ca503f595d599c3afb4c7daf8871b6', '[\"*\"]', '2025-07-27 14:14:09', NULL, '2025-07-27 13:57:58', '2025-07-27 14:14:09'),
+(14, 'App\\Models\\User', 1, 'auth_token', '6de3f2def03d3167dfa423c5353c04af65d8e040663dfb2c18332a96b152e608', '[\"*\"]', '2025-08-04 21:59:28', NULL, '2025-08-04 21:49:49', '2025-08-04 21:59:28'),
+(15, 'App\\Models\\User', 1, 'auth_token', '8010007903911568f0a065715b3cf9e8dbbea32b3380ac410e6629335eab9887', '[\"*\"]', '2025-08-11 10:35:57', NULL, '2025-08-11 10:21:49', '2025-08-11 10:35:57'),
+(33, 'App\\Models\\User', 1, 'auth_token', '0c8a67d9d5034105beec18a2e610ceb382f60b97fd6fa3fae874224b68b1c52f', '[\"*\"]', '2025-09-01 16:20:18', NULL, '2025-09-01 16:20:09', '2025-09-01 16:20:18'),
+(44, 'App\\Models\\User', 1, 'auth_token', '867103b66b7deabcacb229b7c835f8fffe616a0d0b6e7ba0e056531bded2aa26', '[\"*\"]', '2025-09-15 15:22:42', NULL, '2025-09-15 14:51:53', '2025-09-15 15:22:42');
 
 -- --------------------------------------------------------
 
@@ -1361,8 +1499,8 @@ INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VAL
 (3, 'Waiter', 'sanctum', '2025-07-02 23:47:49', '2025-07-02 23:47:49'),
 (4, 'Chef', 'sanctum', '2025-07-02 23:47:49', '2025-07-02 23:47:49'),
 (5, 'Branch Manager', 'sanctum', '2025-07-02 23:47:49', '2025-07-02 23:47:49'),
-(6, 'POS Operator', 'sanctum', '2025-07-02 23:47:49', '2025-07-02 23:47:49'),
-(7, 'Stuff', 'sanctum', '2025-07-02 23:47:49', '2025-07-02 23:47:49');
+(9, 'Attendance Manager', 'sanctum', '2025-09-01 12:17:15', '2025-09-01 12:17:15'),
+(10, 'Employee', 'sanctum', '2025-09-01 13:22:59', '2025-09-01 13:22:59');
 
 -- --------------------------------------------------------
 
@@ -1381,21 +1519,32 @@ CREATE TABLE `role_has_permissions` (
 
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (1, 1),
-(1, 4),
 (1, 5),
-(1, 6),
+(1, 9),
+(1, 10),
 (2, 1),
+(2, 10),
 (3, 1),
+(3, 10),
 (4, 1),
+(4, 10),
 (5, 1),
+(5, 10),
 (6, 1),
+(6, 10),
 (7, 5),
+(7, 10),
+(8, 10),
+(9, 10),
+(10, 10),
+(11, 10),
 (12, 1),
+(12, 4),
 (12, 5),
-(12, 6),
+(12, 10),
 (13, 1),
+(13, 4),
 (13, 5),
-(13, 6),
 (14, 5),
 (15, 1),
 (15, 4),
@@ -1403,26 +1552,11 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (16, 1),
 (16, 4),
 (16, 5),
-(17, 1),
-(18, 1),
-(19, 1),
-(20, 1),
-(21, 1),
 (22, 1),
 (23, 1),
 (24, 1),
 (25, 1),
 (26, 1),
-(27, 1),
-(27, 5),
-(28, 1),
-(28, 5),
-(29, 1),
-(29, 5),
-(30, 1),
-(30, 5),
-(31, 1),
-(31, 5),
 (32, 1),
 (32, 5),
 (33, 1),
@@ -1434,42 +1568,54 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (36, 1),
 (36, 5),
 (37, 1),
-(37, 5),
+(37, 9),
 (38, 1),
-(38, 5),
 (39, 1),
-(39, 5),
 (40, 1),
-(40, 5),
 (41, 1),
-(41, 5),
-(42, 1),
-(42, 5),
-(43, 1),
-(43, 5),
-(44, 1),
-(44, 5),
-(45, 1),
-(45, 5),
-(46, 1),
-(46, 5),
-(47, 1),
+(41, 9),
 (47, 5),
-(48, 1),
 (48, 5),
-(49, 1),
 (49, 5),
-(50, 1),
 (50, 5),
-(51, 1),
 (51, 5),
 (52, 1),
-(52, 5),
 (53, 1),
 (53, 5),
 (54, 1),
 (55, 1),
-(56, 1);
+(56, 1),
+(57, 1),
+(57, 5),
+(57, 9),
+(57, 10),
+(58, 1),
+(58, 5),
+(58, 9),
+(58, 10),
+(59, 1),
+(59, 5),
+(59, 9),
+(59, 10),
+(60, 1),
+(60, 5),
+(60, 9),
+(61, 1),
+(61, 5),
+(61, 9),
+(62, 1),
+(62, 5),
+(62, 9),
+(63, 1),
+(63, 5),
+(63, 10),
+(64, 1),
+(64, 5),
+(64, 10),
+(65, 1),
+(65, 5),
+(65, 10),
+(66, 1);
 
 -- --------------------------------------------------------
 
@@ -1481,12 +1627,12 @@ CREATE TABLE `settings` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `group` varchar(255) DEFAULT NULL,
   `key` varchar(255) NOT NULL,
-  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`payload`)),
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `settingable_type` varchar(255) DEFAULT NULL,
   `settingable_id` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ;
 
 --
 -- Dumping data for table `settings`
@@ -1502,25 +1648,25 @@ INSERT INTO `settings` (`id`, `group`, `key`, `payload`, `settingable_type`, `se
 (7, 'company', 'company_country_code', '{\"$value\":\"USA\",\"$cast\":null}', NULL, NULL, '2025-07-03 00:07:02', '2025-07-03 00:07:02'),
 (8, 'company', 'company_zip_code', '{\"$value\":\"97005\",\"$cast\":null}', NULL, NULL, '2025-07-03 00:07:02', '2025-07-03 00:07:02'),
 (9, 'company', 'company_address', '{\"$value\":\"Shop: 3205 SW Cedar Hills Blvd, Beaverton, OR 97005\",\"$cast\":null}', NULL, NULL, '2025-07-03 00:07:02', '2025-07-03 00:07:02'),
-(10, 'site', 'site_date_format', '{\"$value\":\"d-m-Y\",\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:40', '2025-07-03 00:31:40'),
-(11, 'site', 'site_time_format', '{\"$value\":\"h:i A\",\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:40', '2025-07-03 00:31:40'),
-(12, 'site', 'site_default_timezone', '{\"$value\":\"Pacific\\/Easter\",\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:40', '2025-07-03 00:31:40'),
-(13, 'site', 'site_default_branch', '{\"$value\":1,\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:40', '2025-07-03 00:31:40'),
-(14, 'site', 'site_default_currency', '{\"$value\":1,\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:40', '2025-07-03 00:31:40'),
-(15, 'site', 'site_default_currency_symbol', '{\"$value\":\"$\",\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:41', '2025-07-03 00:31:41'),
-(16, 'site', 'site_currency_position', '{\"$value\":5,\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:40', '2025-07-03 00:31:40'),
-(17, 'site', 'site_digit_after_decimal_point', '{\"$value\":\"2\",\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:40', '2025-07-03 00:31:40'),
-(18, 'site', 'site_email_verification', '{\"$value\":10,\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:40', '2025-07-03 00:31:40'),
-(19, 'site', 'site_phone_verification', '{\"$value\":10,\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:40', '2025-07-03 00:31:40'),
-(20, 'site', 'site_default_language', '{\"$value\":1,\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:41', '2025-07-03 00:31:41'),
-(21, 'site', 'site_google_map_key', '{\"$value\":\"test\",\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:41', '2025-07-03 00:31:41'),
-(22, 'site', 'site_copyright', '{\"$value\":\"Cakeit\",\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:41', '2025-07-03 00:31:41'),
-(23, 'site', 'site_language_switch', '{\"$value\":10,\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:41', '2025-07-03 00:31:41'),
-(24, 'site', 'site_app_debug', '{\"$value\":10,\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:41', '2025-07-03 00:31:41'),
+(10, 'site', 'site_date_format', '{\"$value\":\"d-m-Y\",\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:31', '2025-08-12 16:20:31'),
+(11, 'site', 'site_time_format', '{\"$value\":\"h:i A\",\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:31', '2025-08-12 16:20:31'),
+(12, 'site', 'site_default_timezone', '{\"$value\":\"UTC\",\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:31', '2025-08-12 16:20:31'),
+(13, 'site', 'site_default_branch', '{\"$value\":1,\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:31', '2025-08-12 16:20:31'),
+(14, 'site', 'site_default_currency', '{\"$value\":1,\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:31', '2025-08-12 16:20:31'),
+(15, 'site', 'site_default_currency_symbol', '{\"$value\":\"$\",\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:32', '2025-08-12 16:20:32'),
+(16, 'site', 'site_currency_position', '{\"$value\":5,\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:31', '2025-08-12 16:20:31'),
+(17, 'site', 'site_digit_after_decimal_point', '{\"$value\":\"2\",\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:31', '2025-08-12 16:20:31'),
+(18, 'site', 'site_email_verification', '{\"$value\":10,\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:31', '2025-08-12 16:20:31'),
+(19, 'site', 'site_phone_verification', '{\"$value\":10,\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:31', '2025-08-12 16:20:31'),
+(20, 'site', 'site_default_language', '{\"$value\":1,\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:31', '2025-08-12 16:20:31'),
+(21, 'site', 'site_google_map_key', '{\"$value\":\"test\",\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:32', '2025-08-12 16:20:32'),
+(22, 'site', 'site_copyright', '{\"$value\":\"Cakeit\",\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:32', '2025-08-12 16:20:32'),
+(23, 'site', 'site_language_switch', '{\"$value\":10,\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:31', '2025-08-12 16:20:31'),
+(24, 'site', 'site_app_debug', '{\"$value\":10,\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:32', '2025-08-12 16:20:32'),
 (25, 'site', 'site_auto_update', '{\"$value\":10,\"$cast\":null}', NULL, NULL, '2025-07-02 23:47:52', '2025-07-02 23:47:52'),
-(26, 'site', 'site_online_payment_gateway', '{\"$value\":10,\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:41', '2025-07-03 00:31:41'),
-(27, 'site', 'site_default_sms_gateway', '{\"$value\":null,\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:41', '2025-07-03 00:31:41'),
-(28, 'site', 'site_food_preparation_time', '{\"$value\":\"30\",\"$cast\":null}', NULL, NULL, '2025-07-03 00:31:41', '2025-07-03 00:31:41'),
+(26, 'site', 'site_online_payment_gateway', '{\"$value\":10,\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:32', '2025-08-12 16:20:32'),
+(27, 'site', 'site_default_sms_gateway', '{\"$value\":null,\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:32', '2025-08-12 16:20:32'),
+(28, 'site', 'site_food_preparation_time', '{\"$value\":\"30\",\"$cast\":null}', NULL, NULL, '2025-08-12 16:20:32', '2025-08-12 16:20:32'),
 (29, 'notification', 'notification_fcm_public_vapid_key', '{\"$value\":\"\",\"$cast\":null}', NULL, NULL, '2025-07-02 23:47:52', '2025-07-02 23:47:52'),
 (30, 'notification', 'notification_fcm_api_key', '{\"$value\":\"\",\"$cast\":null}', NULL, NULL, '2025-07-02 23:47:52', '2025-07-02 23:47:52'),
 (31, 'notification', 'notification_fcm_auth_domain', '{\"$value\":\"\",\"$cast\":null}', NULL, NULL, '2025-07-02 23:47:53', '2025-07-02 23:47:53'),
@@ -1548,9 +1694,9 @@ INSERT INTO `settings` (`id`, `group`, `key`, `payload`, `settingable_type`, `se
 (53, 'otp', 'otp_type', '{\"$value\":\"5\",\"$cast\":null}', NULL, NULL, '2025-07-02 23:48:19', '2025-07-02 23:48:19'),
 (54, 'otp', 'otp_digit_limit', '{\"$value\":\"4\",\"$cast\":null}', NULL, NULL, '2025-07-02 23:48:19', '2025-07-02 23:48:19'),
 (55, 'otp', 'otp_expire_time', '{\"$value\":\"10\",\"$cast\":null}', NULL, NULL, '2025-07-02 23:48:20', '2025-07-02 23:48:20'),
-(56, 'theme', 'theme_logo', '{\"$value\":{},\"$cast\":null}', NULL, NULL, '2025-07-03 00:11:03', '2025-07-03 00:11:03'),
-(57, 'theme', 'theme_favicon_logo', '{\"$value\":{},\"$cast\":null}', NULL, NULL, '2025-07-03 00:11:03', '2025-07-03 00:11:03'),
-(58, 'theme', 'theme_footer_logo', '{\"$value\":{},\"$cast\":null}', NULL, NULL, '2025-07-03 00:11:03', '2025-07-03 00:11:03'),
+(56, 'theme', 'theme_logo', '{\"$value\":{},\"$cast\":null}', NULL, NULL, '2025-07-07 12:16:46', '2025-07-07 12:16:46'),
+(57, 'theme', 'theme_favicon_logo', '{\"$value\":{},\"$cast\":null}', NULL, NULL, '2025-07-07 12:16:46', '2025-07-07 12:16:46'),
+(58, 'theme', 'theme_footer_logo', '{\"$value\":{},\"$cast\":null}', NULL, NULL, '2025-07-07 12:16:46', '2025-07-07 12:16:46'),
 (59, 'license', 'license_key', '{\"$value\":\"test\",\"$cast\":null}', NULL, NULL, '2025-07-02 23:48:20', '2025-07-02 23:48:20'),
 (60, 'social_media', 'social_media_facebook', '{\"$value\":\"\",\"$cast\":null}', NULL, NULL, '2025-07-02 23:48:20', '2025-07-02 23:48:20'),
 (61, 'social_media', 'social_media_youtube', '{\"$value\":\"\",\"$cast\":null}', NULL, NULL, '2025-07-02 23:48:20', '2025-07-02 23:48:20'),
@@ -1686,7 +1832,16 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `phone`, `username`, `email_verified_at`, `password`, `device_token`, `web_token`, `branch_id`, `country_code`, `is_guest`, `status`, `balance`, `creator_type`, `creator_id`, `editor_type`, `editor_id`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'Super Admin', 'admin@admin.com', '5037465614', 'admin', '2025-07-02 23:48:10', '$2y$10$G1OFo/M8IWStt1aX9afIOuiK2rpT8utjI1msRiMOSABiDIwUyPY9a', NULL, NULL, 0, '+1', 10, 5, 0.000000, NULL, NULL, NULL, NULL, NULL, '2025-07-02 23:48:10', '2025-07-03 00:13:30', NULL),
-(2, 'Walking Customer', 'walkingcustomer@example.com', '1254444555', 'default-customer', '2025-07-02 23:48:11', '$2y$10$a/e/T3Lr.KxSsiS4FERlT.ZoCihhQ6UrCHXDUC/IMoa3kEG9Z6V02', NULL, NULL, 0, '+880', 10, 5, 0.000000, NULL, NULL, NULL, NULL, NULL, '2025-07-02 23:48:11', '2025-07-02 23:48:11', NULL);
+(2, 'Walking Customer', 'walkingcustomer@example.com', '1254444555', 'default-customer', '2025-07-02 23:48:11', '$2y$10$a/e/T3Lr.KxSsiS4FERlT.ZoCihhQ6UrCHXDUC/IMoa3kEG9Z6V02', NULL, NULL, 0, '+880', 10, 5, 0.000000, NULL, NULL, NULL, NULL, NULL, '2025-07-02 23:48:11', '2025-07-02 23:48:11', NULL),
+(3, 'Manager', 'manager@example.com', NULL, 'manager2077781805', '2025-07-08 15:55:10', '$2y$10$3y88fY9INY8l0KKv9xUYJ.JlYn6Swo6srtKlerKDK1MsIEle0AdVG', NULL, NULL, 1, '+1', 10, 5, 0.000000, NULL, NULL, NULL, NULL, NULL, '2025-07-08 15:55:10', '2025-08-29 19:34:39', NULL),
+(4, 'Chef', 'chef@example.com', NULL, 'chef674699905', '2025-07-08 16:02:29', '$2y$10$iousspF/k/Bj29H6i98o0ezWs5R4TzIsdVbWDLJX5up7O9xd07kzi', NULL, NULL, 1, '+1', 10, 5, 0.000000, NULL, NULL, NULL, NULL, NULL, '2025-07-08 16:02:29', '2025-07-08 16:02:29', NULL),
+(5, 'test', 'test@gmail.com', '1231231231', 'test742192768', '2025-07-14 16:01:21', '$2y$10$mgzYMT/u/LECRWQlm5Bo6O.U.Wf6FU9MeXgTtcSjJ/6oMWxOtI4Aa', NULL, NULL, 0, '+1', 10, 5, 0.000000, NULL, NULL, NULL, NULL, NULL, '2025-07-14 16:01:21', '2025-07-14 16:14:22', '2025-07-14 16:14:22'),
+(6, 'Pompa', 'email@email.com', '1212121212', 'email1405683161', '2025-07-16 15:23:34', '$2y$10$p7/g0afzEsU3iJRXtlz9XOEa2hNT5.W4rR26Bzrpvk.Xwpr8JEBpa', NULL, NULL, 0, '+1', 10, 5, 0.000000, NULL, NULL, NULL, NULL, NULL, '2025-07-16 15:23:34', '2025-07-16 15:23:34', NULL),
+(7, 'Test', 'rine@mailinweeeator.com', '3212312314', 'rine1014044797', '2025-08-11 06:53:33', '$2y$10$C.EZ9XWSEqdTcsI.YczoAOxKpfM/q9kgvxR3M6aurTvWeOjEM944e', NULL, NULL, 0, '+1', 10, 5, 0.000000, NULL, NULL, NULL, NULL, NULL, '2025-08-11 06:53:33', '2025-08-11 06:53:33', NULL),
+(8, 'sadaasaaaa', 'rine@mailinatddddddor.com', '1231323111', 'rine1782983986', '2025-08-11 12:10:27', '$2y$10$ZI4Yrh4SrRMePapjpOCnduZBbDczSjm7xcWfDLgE/fgI4a8dmzfK6', NULL, NULL, 0, '+1', 10, 5, 0.000000, NULL, NULL, NULL, NULL, NULL, '2025-08-11 12:10:27', '2025-08-11 12:10:27', NULL),
+(9, 'sddsdsd', 'dsdsdsd@test.com', '2323123123', 'dsdsdsd223198582', '2025-08-12 04:44:25', '$2y$10$k2CGK9eu.cqgIvxLU6T3re0qukR.Dxgm5bLn8UJjdREByY9BVjLcO', NULL, NULL, 0, '+1', 10, 5, 0.000000, NULL, NULL, NULL, NULL, NULL, '2025-08-12 04:44:25', '2025-08-12 04:44:25', NULL),
+(10, 'Test', 'rine@mailinator.com', '3434233242', 'rine2032665967', '2025-08-13 11:17:17', '$2y$10$zYZ3HTOv02NQc/t6QB2ZtOyUkN399hUzekmR1aYhSIUYiu1h/55fa', NULL, NULL, 0, '+1', 10, 5, 0.000000, NULL, NULL, NULL, NULL, NULL, '2025-08-13 11:17:17', '2025-08-13 11:17:17', NULL),
+(11, 'jon', 'test@gmail2.com', '4333223411', 'test1385625847', '2025-09-01 13:22:03', '$2y$10$FJqScOrvq4/ihVd0jHmab.SLQwGTCOGDW9u.XfRUboMarhwqRP2c.', NULL, NULL, 1, '+1', 10, 5, 0.000000, NULL, NULL, NULL, NULL, NULL, '2025-09-01 13:22:03', '2025-09-15 13:05:52', NULL);
 
 --
 -- Indexes for dumped tables
@@ -1719,6 +1874,15 @@ ALTER TABLE `analytic_sections`
   ADD KEY `analytic_sections_analytic_id_foreign` (`analytic_id`);
 
 --
+-- Indexes for table `attendance_assignee`
+--
+ALTER TABLE `attendance_assignee`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `attendance_assignee_employee_id_unique` (`employee_id`),
+  ADD KEY `attendance_assignee_employee_id_is_active_index` (`employee_id`,`is_active`),
+  ADD KEY `attendance_assignee_assigned_by_index` (`assigned_by`);
+
+--
 -- Indexes for table `branches`
 --
 ALTER TABLE `branches`
@@ -1743,6 +1907,16 @@ ALTER TABLE `dining_tables`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `dining_tables_slug_unique` (`slug`),
   ADD KEY `dining_tables_branch_id_foreign` (`branch_id`);
+
+--
+-- Indexes for table `employee_attendance`
+--
+ALTER TABLE `employee_attendance`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `employee_attendance_employee_id_date_unique` (`employee_id`,`date`),
+  ADD KEY `employee_attendance_employee_id_date_index` (`employee_id`,`date`),
+  ADD KEY `employee_attendance_date_status_index` (`date`,`status`),
+  ADD KEY `employee_attendance_created_by_index` (`created_by`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -2050,6 +2224,12 @@ ALTER TABLE `analytic_sections`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `attendance_assignee`
+--
+ALTER TABLE `attendance_assignee`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `branches`
 --
 ALTER TABLE `branches`
@@ -2065,13 +2245,19 @@ ALTER TABLE `currencies`
 -- AUTO_INCREMENT for table `default_access`
 --
 ALTER TABLE `default_access`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `dining_tables`
 --
 ALTER TABLE `dining_tables`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `employee_attendance`
+--
+ALTER TABLE `employee_attendance`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -2089,7 +2275,7 @@ ALTER TABLE `gateway_options`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `item_addons`
@@ -2101,7 +2287,7 @@ ALTER TABLE `item_addons`
 -- AUTO_INCREMENT for table `item_attributes`
 --
 ALTER TABLE `item_attributes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `item_categories`
@@ -2119,7 +2305,7 @@ ALTER TABLE `item_extras`
 -- AUTO_INCREMENT for table `item_variations`
 --
 ALTER TABLE `item_variations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `languages`
@@ -2131,13 +2317,13 @@ ALTER TABLE `languages`
 -- AUTO_INCREMENT for table `media`
 --
 ALTER TABLE `media`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `menu_sections`
@@ -2167,7 +2353,7 @@ ALTER TABLE `message_histories`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -2197,7 +2383,7 @@ ALTER TABLE `offer_items`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `order_addresses`
@@ -2209,7 +2395,7 @@ ALTER TABLE `order_addresses`
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -2227,13 +2413,13 @@ ALTER TABLE `payment_gateways`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `pesapals`
@@ -2251,13 +2437,13 @@ ALTER TABLE `push_notifications`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sms_gateways`
@@ -2287,7 +2473,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
@@ -2306,10 +2492,24 @@ ALTER TABLE `analytic_sections`
   ADD CONSTRAINT `analytic_sections_analytic_id_foreign` FOREIGN KEY (`analytic_id`) REFERENCES `analytics` (`id`);
 
 --
+-- Constraints for table `attendance_assignee`
+--
+ALTER TABLE `attendance_assignee`
+  ADD CONSTRAINT `attendance_assignee_assigned_by_foreign` FOREIGN KEY (`assigned_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `attendance_assignee_employee_id_foreign` FOREIGN KEY (`employee_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `dining_tables`
 --
 ALTER TABLE `dining_tables`
   ADD CONSTRAINT `dining_tables_branch_id_foreign` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`);
+
+--
+-- Constraints for table `employee_attendance`
+--
+ALTER TABLE `employee_attendance`
+  ADD CONSTRAINT `employee_attendance_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `employee_attendance_employee_id_foreign` FOREIGN KEY (`employee_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `items`
