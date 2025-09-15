@@ -634,20 +634,6 @@ video {
   display: flex;
   flex-wrap: wrap;
 }
-.form-col-2 {
-  width: 20%;
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-.form-col-3 {
-  width: 25%;
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
 .form-col-4 {
   width: 33.333333%;
   padding-left: 0.25rem;
@@ -664,13 +650,6 @@ video {
 }
 .form-col-8 {
   width: 66.666667%;
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-.form-col-9 {
-  width: 75%;
   padding-left: 0.25rem;
   padding-right: 0.25rem;
   padding-top: 0.5rem;
@@ -3503,9 +3482,6 @@ input:checked + div svg {
 .mt-\[-20px\] {
   margin-top: -20px;
 }
-.ml-2 {
-  margin-left: 0.5rem;
-}
 .block {
   display: block;
 }
@@ -4188,6 +4164,10 @@ input:checked + div svg {
   --tw-bg-opacity: 1;
   background-color: rgb(130 98 254 / var(--tw-bg-opacity, 1));
 }
+.bg-\[\#874215\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(135 66 21 / var(--tw-bg-opacity, 1));
+}
 .bg-\[\#A953FF\] {
   --tw-bg-opacity: 1;
   background-color: rgb(169 83 255 / var(--tw-bg-opacity, 1));
@@ -4251,6 +4231,10 @@ input:checked + div svg {
 .bg-\[\#FFF5DE\] {
   --tw-bg-opacity: 1;
   background-color: rgb(255 245 222 / var(--tw-bg-opacity, 1));
+}
+.bg-\[\#e60000\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(230 0 0 / var(--tw-bg-opacity, 1));
 }
 .bg-black {
   --tw-bg-opacity: 1;
@@ -4317,14 +4301,6 @@ input:checked + div svg {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-}
-.bg-\[\#e60000\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(230 0 0 / var(--tw-bg-opacity, 1));
-}
-.bg-\[\#874215\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(135 66 21 / var(--tw-bg-opacity, 1));
 }
 .bg-gradient-to-t {
   background-image: linear-gradient(to top, var(--tw-gradient-stops));
