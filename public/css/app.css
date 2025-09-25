@@ -5568,6 +5568,10 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   --tw-border-opacity: 1;
   border-color: rgb(147 197 253 / var(--tw-border-opacity, 1));
 }
+.focus\:border-primary:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(23 114 255 / var(--tw-border-opacity, 1));
+}
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;

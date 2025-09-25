@@ -128,6 +128,7 @@ export const posCart = {
                             name: pay.name,
                             currency_price: pay.currency_price,
                             convert_price: pay.convert_price,
+                            custom_price: pay.custom_price,
                             quantity: pay.quantity
                         });
                         isNew = false;
@@ -139,7 +140,12 @@ export const posCart = {
             if (state.lists.length > 0) {
                 let subtotal = 0;
                 _.forEach(state.lists, (list, listKey) => {
-                    state.lists[listKey].total = ((list.convert_price + list.item_variation_total + list.item_extra_total) * list.quantity);
+                    // Use custom price if available, otherwise use convert_price
+                    const basePrice = list.custom_price !== null && list.custom_price !== '' 
+                        ? parseFloat(list.custom_price) 
+                        : list.convert_price;
+                    
+                    state.lists[listKey].total = ((basePrice + list.item_variation_total + list.item_extra_total) * list.quantity);
                     subtotal += state.lists[listKey].total;
                 });
                 state.subtotal = subtotal;

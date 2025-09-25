@@ -284,6 +284,26 @@
                     </div>
                 </div>
 
+                <div class="mb-6">
+                    <h3 class="text-xs leading-6 font-medium capitalize mb-2 text-heading">
+                        {{ $t('Custom Price') || 'Custom Price' }}
+                    </h3>
+                    <div class="relative">
+                        <input 
+                            type="number" 
+                            v-model="temp.custom_price"
+                            @input="onCustomPriceChange"
+                            :placeholder="$t('Enter custom price') || 'Enter custom price'"
+                            step="0.01"
+                            min="0"
+                            class="h-10 w-full rounded-lg border py-1.5 px-2 text-xs border-[#D9DBE9] focus:border-primary focus:outline-none"
+                        />
+                        <small class="text-xs text-[#6E7191] mt-1 block">
+                            {{ $t('Leave empty to use default price') || 'Leave empty to use default price' }}
+                        </small>
+                    </div>
+                </div>
+
                 <button type="button" :disabled="temp.total_price <= 0" @click.prevent="addToCart"
                     class="flex items-center justify-center gap-3 rounded-3xl text-base py-3 px-3 font-medium w-full text-white bg-primary">
                     <i class="icon-bag-2"></i>
@@ -341,6 +361,7 @@ export default {
                 discount: 0,
                 currency_price: 0,
                 convert_price: 0,
+                custom_price: null,
                 item_variations: {
                     variations: {},
                     names: {}
@@ -435,6 +456,7 @@ export default {
             this.temp.discount = 0;
             this.temp.currency_price = 0;
             this.temp.convert_price = 0;
+            this.temp.custom_price = null;
             this.temp.item_variations = {
                 variations: {},
                 names: {}
@@ -515,7 +537,13 @@ export default {
 
             this.temp.item_variation_total = item_variation_total;
             this.temp.item_extra_total = item_extra_total;
-            this.temp.total_price = parseFloat((((this.item.offer.length > 0 ? this.item.offer[0].convert_price : this.item.convert_price) + this.temp.item_variation_total + this.temp.item_extra_total) * this.temp.quantity) + item_addon_total);
+            
+            // Use custom price if provided, otherwise use default price
+            const basePrice = this.temp.custom_price !== null && this.temp.custom_price !== '' 
+                ? parseFloat(this.temp.custom_price) 
+                : (this.item.offer.length > 0 ? this.item.offer[0].convert_price : this.item.convert_price);
+            
+            this.temp.total_price = parseFloat(((basePrice + this.temp.item_variation_total + this.temp.item_extra_total) * this.temp.quantity) + item_addon_total);
         },
         quantityUp: function () {
             if (this.temp.quantity === 0) {
@@ -673,6 +701,7 @@ export default {
                     discount: this.temp.discount,
                     currency_price: this.temp.currency_price,
                     convert_price: this.temp.convert_price,
+                    custom_price: this.temp.custom_price,
                     item_variations: this.temp.item_variations,
                     item_extras: this.temp.item_extras,
                     item_variation_total: this.temp.item_variation_total,
@@ -714,6 +743,7 @@ export default {
                     this.temp.discount = 0;
                     this.temp.currency_price = 0;
                     this.temp.convert_price = 0;
+                    this.temp.custom_price = null;
                     this.temp.item_variations = {
                         variations: {},
                         names: {}
@@ -743,6 +773,10 @@ export default {
             const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
             const yyyy = today.getFullYear();
             return `${yyyy}-${mm}-${dd}`;
+        },
+        onCustomPriceChange() {
+            // Trigger price recalculation when custom price changes
+            this.totalPriceSetup();
         }
     },
     watch: {
