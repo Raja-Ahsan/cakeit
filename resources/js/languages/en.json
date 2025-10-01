@@ -46,6 +46,7 @@
         "delivery_setup": "Delivery Setup",
         "delivery_charge": "Delivery Charge",
         "update": "Update",
+        "edit": "Edit",
         "payment_gateway": "Payment Gateway",
         "sms_gateway": "Sms Gateway",
         "sales_report": "Sales Report",
