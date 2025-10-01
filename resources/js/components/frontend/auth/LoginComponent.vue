@@ -2,6 +2,11 @@
     <LoadingComponent :props="loading" />
     <section class="pt-8 pb-16">
         <div class="container max-w-[360px] py-6 p-4 mb-6 sm:px-6 shadow-xs rounded-2xl bg-white">
+            <!-- Theme Logo -->
+            <div class="flex justify-center mb-6">
+                <img :src="setting.theme_logo" alt="Logo" class="h-20 w-auto">
+            </div>
+            
             <h2 class="capitalize mb-6 text-center text-[22px] font-semibold leading-[34px] text-heading">
                 {{ $t('label.welcome_back') }}
             </h2>
@@ -110,7 +115,14 @@ export default {
     computed: {
         permission: function () {
             return this.$store.getters.authPermission;
+        },
+        setting: function () {
+            return this.$store.getters['frontendSetting/lists'];
         }
+    },
+    mounted() {
+        // Load frontend settings to get theme logo
+        this.$store.dispatch('frontendSetting/lists').then().catch();
     },
     methods: {
         login: function () {

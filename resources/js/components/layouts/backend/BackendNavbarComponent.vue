@@ -1,8 +1,8 @@
 <template>
     <div class="backdrop"></div>
     <header class="db-header">
-        <router-link class="w-[70px] flex-shrink-0" :to="{ name: 'admin.dashboard' }" @click="closeFullScreen">
-            <img class="w-full" :src="setting.theme_logo" alt="logo">
+        <router-link class="w-[214px] flex-shrink-0 flex justify-center" :to="{ name: 'admin.dashboard' }" @click="closeFullScreen">
+            <img class="w-full max-w-[50px]" :src="setting.theme_logo" alt="logo">
         </router-link>
         <div class="flex items-center justify-end w-full gap-4">
             <div

@@ -59,6 +59,12 @@
                                 #{{ order.token }}
                             </span>
                         </li>
+                        <li class="text-xs" v-if="order.order_notes && order.order_notes.trim()">
+                            {{ $t('Order Note') }}:
+                            <span class="text-heading">
+                                {{ order.order_notes }}
+                            </span>
+                        </li>
                         <li class="text-xs" v-if="order.table_name">
                             {{ $t("label.table_name") }}:
                             <span class="text-heading">
