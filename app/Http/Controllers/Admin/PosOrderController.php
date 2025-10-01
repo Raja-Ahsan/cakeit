@@ -10,8 +10,11 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\OrderStatusRequest;
 use App\Http\Requests\PaymentStatusRequest;
+use App\Http\Requests\PosOrderRequest;
+use App\Http\Requests\PosOrderUpdateRequest;
 use App\Http\Resources\SimpleOrderResource;
 use App\Http\Resources\OrderDetailsResource;
+use Illuminate\Support\Facades\Log;
 
 
 class PosOrderController extends AdminController
@@ -27,7 +30,8 @@ class PosOrderController extends AdminController
             'destroy',
             'export',
             'changeStatus',
-            'changePaymentStatus'
+            'changePaymentStatus',
+            'update'
         );
         $this->middleware(['permission:pos-orders|pos'])->only('show');
     }
@@ -46,6 +50,14 @@ class PosOrderController extends AdminController
         Order $order
     ): \Illuminate\Http\Response | OrderDetailsResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
         try {
+            // Debug: Log the order data before sending to resource
+            Log::info('Order show debug:', [
+                'order_id' => $order->id,
+                'order_notes' => $order->order_notes,
+                'order_notes_type' => gettype($order->order_notes),
+                'order_notes_length' => strlen($order->order_notes ?? ''),
+            ]);
+            
             return new OrderDetailsResource($this->orderService->show($order, false));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
@@ -90,6 +102,17 @@ class PosOrderController extends AdminController
     ): \Illuminate\Http\Response | OrderDetailsResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
         try {
             return new OrderDetailsResource($this->orderService->changePaymentStatus($order, false, $request));
+        } catch (Exception $exception) {
+            return response(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
+    }
+
+    public function update(
+        Order $order,
+        PosOrderUpdateRequest $request
+    ): \Illuminate\Http\Response | OrderDetailsResource | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory {
+        try {
+            return new OrderDetailsResource($this->orderService->posOrderUpdate($order, $request));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }

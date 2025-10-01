@@ -123,6 +123,32 @@ class PermissionTableSeeder extends Seeder
                 'url'        => 'pos-orders',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'children'   => [
+                    [
+                        'title'      => 'POS Orders Edit',
+                        'name'       => 'pos-orders_edit',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'pos-orders/edit',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'POS Orders Show',
+                        'name'       => 'pos-orders_show',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'pos-orders/show',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'title'      => 'POS Orders Delete',
+                        'name'       => 'pos-orders_delete',
+                        'guard_name' => 'sanctum',
+                        'url'        => 'pos-orders/delete',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]
             ],
             [
                 'title'      => 'Table Orders',

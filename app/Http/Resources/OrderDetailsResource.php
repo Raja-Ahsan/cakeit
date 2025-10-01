@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Enums\Ask;
 use App\Libraries\AppLibrary;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Log;
 
 class OrderDetailsResource extends JsonResource
 {
@@ -16,6 +17,14 @@ class OrderDetailsResource extends JsonResource
      */
     public function toArray($request): array
     {
+        // Debug: Log the order notes before returning
+        Log::info('OrderDetailsResource debug:', [
+            'order_id' => $this->id,
+            'order_notes' => $this->order_notes,
+            'order_notes_type' => gettype($this->order_notes),
+            'order_notes_length' => strlen($this->order_notes ?? ''),
+        ]);
+        
         return [
             'id'                                  => $this->id,
             'order_serial_no'                     => $this->order_serial_no,
@@ -53,6 +62,7 @@ class OrderDetailsResource extends JsonResource
             'pos_received_currency_amount'        => AppLibrary::currencyAmountFormat($this->pos_received_amount),
             'cash_back_amount'                    => $this->pos_received_amount - $this->total,
             'cash_back_currency_amount'           => AppLibrary::currencyAmountFormat($this->pos_received_amount - $this->total),
+            'order_notes'                         => $this->order_notes,
         ];
     }
 }

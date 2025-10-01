@@ -122,6 +122,8 @@
                                 <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
                                     <SmIconViewComponent :link="'admin.pos.orders.show'" :id="order.id"
                                         v-if="permissionChecker('pos-orders')" />
+                                    <SmIconEditComponent :link="'admin.pos.orders.edit'" :id="order.id"
+                                        v-if="permissionChecker('pos-orders_edit')" />
                                     <SmIconDeleteComponent @click="destroy(order.id)"
                                         v-if="permissionChecker('pos-orders')" />
                                 </div>
@@ -167,6 +169,7 @@ import orderTypeEnum from "../../../enums/modules/orderTypeEnum";
 import TableLimitComponent from "../components/TableLimitComponent";
 import SmIconDeleteComponent from "../components/buttons/SmIconDeleteComponent";
 import SmIconViewComponent from "../components/buttons/SmIconViewComponent";
+import SmIconEditComponent from "../components/buttons/SmIconEditComponent";
 import FilterComponent from "../components/buttons/collapse/FilterComponent";
 import ExportComponent from "../components/buttons/export/ExportComponent";
 import PrintComponent from "../components/buttons/export/PrintComponent";
@@ -190,6 +193,7 @@ export default {
         LoadingComponent,
         SmIconDeleteComponent,
         SmIconViewComponent,
+        SmIconEditComponent,
         FilterComponent,
         ExportComponent,
         PrintComponent,

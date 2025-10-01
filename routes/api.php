@@ -1,5 +1,16 @@
 <?php
 
+// Debug route to test order notes
+Route::get('/debug-order-notes/{id}', function($id) {
+    $order = App\Models\Order::find($id);
+    return response()->json([
+        'order_id' => $order->id,
+        'order_notes' => $order->order_notes,
+        'order_notes_type' => gettype($order->order_notes),
+        'order_notes_length' => strlen($order->order_notes ?? ''),
+        'all_columns' => $order->getAttributes()
+    ]);
+});
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -402,6 +413,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
     Route::prefix('pos-order')->name('posOrder.')->group(function () {
         Route::get('/', [PosOrderController::class, 'index']);
         Route::get('show/{order}', [PosOrderController::class, 'show']);
+        Route::match(['put', 'patch'], '/{order}', [PosOrderController::class, 'update']);
         Route::delete('/{order}', [PosOrderController::class, 'destroy']);
         Route::get('/export', [PosOrderController::class, 'export']);
         Route::post('/change-status/{order}', [PosOrderController::class, 'changeStatus']);

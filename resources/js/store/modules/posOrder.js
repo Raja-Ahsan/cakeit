@@ -201,6 +201,16 @@ export const posOrder = {
                 });
             });
         },
+        update: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                axios.put(`admin/pos-order/${payload.id}`, payload.form).then((res) => {
+                    context.commit('show', res.data.data);
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
         reset: function (context) {
             context.commit('reset');
         },

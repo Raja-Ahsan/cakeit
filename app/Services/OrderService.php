@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\PosOrderRequest;
+use App\Http\Requests\PosOrderUpdateRequest;
 use App\Http\Requests\TableOrderRequest;
 use Smartisan\Settings\Facades\Settings;
 use App\Http\Requests\OrderStatusRequest;
@@ -375,6 +376,36 @@ class OrderService
         }
     }
 
+
+    /**
+     * @throws Exception
+     */
+    public function posOrderUpdate(Order $order, PosOrderUpdateRequest $request): object
+    {
+        try {
+            // Debug: Log the request data
+            Log::info('Updating order notes:', [
+                'order_id' => $order->id,
+                'order_notes' => $request->order_notes
+            ]);
+            
+            // Update only the order notes
+            $order->update([
+                'order_notes' => $request->order_notes,
+            ]);
+            
+            // Debug: Log the updated order
+            Log::info('Order updated:', [
+                'order_id' => $order->id,
+                'order_notes' => $order->order_notes
+            ]);
+            
+            return $order;
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
 
     /**
      * @throws Exception
