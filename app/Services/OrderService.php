@@ -600,6 +600,7 @@ class OrderService
            $updatedOrder = Order::with(['user', 'branch', 'orderItems'])->find($order->id);
            $oldLabel = $this->getStatusLabel($oldStatus);
            $newLabel = $this->getStatusLabel($order->status);
+           //send email
            if ($updatedOrder->user && $updatedOrder->user->email) {
                 Mail::to($updatedOrder->user->email)
                     ->send(new OrderStatusChangedMail($updatedOrder, $oldLabel, $newLabel));
