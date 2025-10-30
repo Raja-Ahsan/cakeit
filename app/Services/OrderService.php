@@ -34,6 +34,9 @@ use Smartisan\Settings\Facades\Settings;
 use App\Http\Requests\OrderStatusRequest;
 use App\Http\Requests\PaymentStatusRequest;
 use App\Http\Requests\TableOrderTokenRequest;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderGotMail;
+use App\Mail\OrderStatusChangedMail;
 
 class OrderService
 {
@@ -368,6 +371,12 @@ class OrderService
                 $this->order->delivery_time   = "$start - $end";
                 $this->order->save();
             });
+            $getorder = Order::with(['user', 'branch', 'order_items'])->find($this->order->id);
+            Mail::to($this->order->user->email)->send(new OrderGotMail($getorder));
+            // \Mail::to('herry@yopmail.com')->send(new \App\Mail\OrderGotMail($this->order->id, 'You got a new order!'));
+            // SendOrderGotMail::dispatch(['order_id' => $this->order->id]);
+            // SendOrderGotSms::dispatch(['order_id' => $this->order->id]);
+            // SendOrderGotPush::dispatch(['order_id' => $this->order->id]);
             return $this->order;
         } catch (Exception $exception) {
             DB::rollBack();
@@ -548,6 +557,7 @@ class OrderService
     public function changeStatus(Order $order, $auth = false, OrderStatusRequest $request): Order|array
     {
         try {
+            $oldStatus = $order->status;
             if ($auth) {
                 if ($order->user_id == Auth::user()->id) {
                     if ($request->reason) {
@@ -587,11 +597,34 @@ class OrderService
                 $order->status = $request->status;
                 $order->save();
             }
+           $updatedOrder = Order::with(['user', 'branch', 'orderItems'])->find($order->id);
+           $oldLabel = $this->getStatusLabel($oldStatus);
+           $newLabel = $this->getStatusLabel($order->status);
+           if ($updatedOrder->user && $updatedOrder->user->email) {
+                Mail::to($updatedOrder->user->email)
+                    ->send(new OrderStatusChangedMail($updatedOrder, $oldLabel, $newLabel));
+            }
             return $order;
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
         }
+    }
+
+    private function getStatusLabel($status)
+    {
+        return match ($status) {
+            OrderStatus::PENDING          => 'Pending',
+            OrderStatus::ACCEPT           => 'Accepted',
+            OrderStatus::PREPARING        => 'Preparing',
+            OrderStatus::PREPARED         => 'Prepared',
+            OrderStatus::OUT_FOR_DELIVERY => 'Out for Delivery',
+            OrderStatus::DELIVERED        => 'Delivered',
+            OrderStatus::CANCELED         => 'Cancelled',
+            OrderStatus::REJECTED         => 'Rejected',
+            OrderStatus::RETURNED         => 'Returned',
+            default                       => 'Unknown',
+        };
     }
 
     /**

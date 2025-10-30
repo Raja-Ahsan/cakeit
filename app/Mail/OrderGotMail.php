@@ -10,23 +10,18 @@ class OrderGotMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
+    public $order; // 👈 full order object
 
-    public int $orderId;
-    public mixed $message;
-
-    public function __construct($orderId, $message)
+    public function __construct($order)
     {
-        $this->orderId = $orderId;
-        $this->message = $message;
+        $this->order = $order['data'] ?? $order;
     }
 
     public function build()
     {
-        return $this->subject("You got a new order")->markdown('emails.orderGot');
+        return $this->subject("🎂 New Order #{$this->order->order_serial_no} Received!")
+                    ->markdown('emails.orderGot', [
+                        'order' => $this->order,
+                    ]);
     }
 }
