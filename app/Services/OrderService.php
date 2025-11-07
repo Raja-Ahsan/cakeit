@@ -372,6 +372,7 @@ class OrderService
                 $this->order->save();
             });
             $getorder = Order::with(['user', 'branch', 'order_items'])->find($this->order->id);
+            Mail::to('info@cakeit.us')->send(new OrderGotMail($getorder));
             Mail::to($this->order->user->email)->send(new OrderGotMail($getorder));
             // \Mail::to('herry@yopmail.com')->send(new \App\Mail\OrderGotMail($this->order->id, 'You got a new order!'));
             // SendOrderGotMail::dispatch(['order_id' => $this->order->id]);
@@ -601,7 +602,7 @@ class OrderService
            $oldLabel = $this->getStatusLabel($oldStatus);
            $newLabel = $this->getStatusLabel($order->status);
            //send email
-           if ($updatedOrder->user && $updatedOrder->user->email) {
+           if ($updatedOrder->user && $updatedOrder->user->email && $newLabel == 'Prepared') {
                 Mail::to($updatedOrder->user->email)
                     ->send(new OrderStatusChangedMail($updatedOrder, $oldLabel, $newLabel));
             }
