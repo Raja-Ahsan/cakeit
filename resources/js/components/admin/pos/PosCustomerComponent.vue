@@ -19,10 +19,10 @@
                             }}</small>
                         </div>
 
-                        <div class="form-col-12 sm:form-col-6">
+                        <div class="form-col-12 sm:form-col-6" style="display:none;">
                             <label for="email" class="db-field-title required">{{
                                 $t("label.email")
-                            }}</label>
+                            }} </label>
                             <input v-model="props.form.email" v-bind:class="errors.email ? 'invalid' : ''" type="text"
                                 id="email" class="db-field-control" />
                             <small class="db-field-alert" v-if="errors.email">{{
@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="form-col-12 sm:form-col-6">
-                            <label for="phone" class="text-xs capitalize mb-1 text-heading">{{ $t('label.phone') }}</label>
+                            <label for="phone" class="text-xs capitalize mb-1 text-heading required">{{ $t('label.phone') }}</label>
                             <div :class="errors.phone ? 'invalid' : ''" class="db-field-control flex items-center">
                                 <div class="w-fit flex-shrink-0 dropdown-group">
                                     <button type="button" class="flex items-center gap-1 dropdown-btn">

@@ -27,12 +27,12 @@ class CustomerRequest extends FormRequest
     {
         return [
             'name'                  => ['required', 'string', 'max:190'],
-            'email'                 => [
-                'required',
-                'email',
-                'max:190',
-                Rule::unique("users", "email")->ignore($this->route('customer.id'))
-            ],
+            // 'email'                 => [
+            //     'required',
+            //     'email',
+            //     'max:190',
+            //     Rule::unique("users", "email")->ignore($this->route('customer.id'))
+            // ],
             'password'              => [
                 $this->route('customer.id') ? 'nullable' : 'required',
                 'string',
@@ -47,7 +47,7 @@ class CustomerRequest extends FormRequest
             'web_token'             => ['nullable', 'string'],
             'password_confirmation' => [$this->route('customer.id') ? 'nullable' : 'required', 'string', 'min:6'],
             'phone'                 => [
-                'nullable',
+                'required',
                 'string',
                 'max:20',
                 new ValidPhone(),
